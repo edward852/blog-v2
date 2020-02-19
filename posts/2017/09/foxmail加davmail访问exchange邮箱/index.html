@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- Standard Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <!-- Site Properities -->
+        <title>时聆心语 - Foxmail加DavMail访问Exchange邮箱</title>
+
+        <link rel="stylesheet" type="text/css" href="../../../../assets/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../assets/site.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/ch-pygments.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/readtheorg_smpl.css">
+    </head>
+
+    <body id="gh-site" class="pushable">
+        <div class="ui vertical inverted sidebar menu right" id="_dst_toc_">
+        </div>
+        <div class="pusher">
+            <!-- Global Header -->
+            <div class="page header">
+                <div class="ui main container">
+                    <div class="ui borderless menu">
+                        <a href="../../../../" class="item"><img src="../../../../favicon.ico"></a>
+                        <a href="../../../../archives" class="item">Archives</a>
+                        <a href="../../../../tags" class="item">Tags</a>
+                        <a href="../../../../about" class="item">About</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="page content" data-iframe-height>
+                <div class="ui main container">
+                    
+<div class="ui piled segments">
+    <div class="ui segment">
+        <div class="ui tiny header">
+            <h1>Foxmail加DavMail访问Exchange邮箱</h1>
+        </div>
+    </div>
+    <div class="ui blue segment">
+        <div class="ui basic grey label">Posted at:<div class="detail">September 7, 2017</div>
+</div>
+        <div class="tags">
+<div class="ui teal tag label">Tags:</div>
+<a class="ui basic label" href="../../../../tags/foxmail">Foxmail</a><a class="ui basic label" href="../../../../tags/davmail">DavMail</a><a class="ui basic label" href="../../../../tags/exchange">Exchange</a>
+</div>
+        <div class="ui hidden divider"></div>
+        <article>
+            <nav id="_SRC_TOC_" style="display:none">
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF"><span class="toc-section-number">1</span> 背景</a></li>
+<li>
+<a href="#davmail"><span class="toc-section-number">2</span> DavMail</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%85"><span class="toc-section-number">2.1</span> 安装</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE"><span class="toc-section-number">2.2</span> 配置</a></li>
+</ul>
+</li>
+<li>
+<a href="#foxmail"><span class="toc-section-number">3</span> Foxmail</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E5%8F%AF%E9%80%89"><span class="toc-section-number">3.1</span> 安装最新版本（可选）</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-1"><span class="toc-section-number">3.2</span> 配置</a></li>
+</ul>
+</li>
+<li><a href="#%E9%80%9A%E8%AE%AF%E5%BD%95%E6%8F%90%E5%8F%96%E4%B8%8E%E6%9B%B4%E6%96%B0%E5%8F%AF%E9%80%89"><span class="toc-section-number">4</span> 通讯录提取与更新(可选)</a></li>
+</ul>
+</nav>
+<h1 id="背景">
+<span class="header-section-number">1</span> 背景</h1>
+<p>由于公司的邮箱服务器改为使用Exchange，而Outlook在Windows XP下实在太卡，所以只能寻找替代方案。</p>
+<p>虽然较新版本的Foxmail声称支持Exchange，不过实际测试并不行，也可能是邮箱服务器的设置问题，所以暂时搁置。<br>
+然后找到了第一个可行的替代方案是Thunderbird+ExQuilla插件，效果比Outlook要好一些，使用一段时间后还是觉得差强人意。<br>
+第一个方案还有一个缺点就是ExQuilla插件只能免费使用一段时间，之后每年都需要购买license。。。<br>
+再后来还是觉得以前一直用的Foxmail好用省心，所以在网上寻找可行方案，最终找到了第二个方案：Foxmail+DavMail。<br>
+Foxmail并不是必要的，任何其他支持POP、IMAP、SMTP的邮箱客户端都可以。这个方案的核心是DavMail，作为中介连接邮箱客户端和邮箱服务器。</p>
+<h1 id="davmail">
+<span class="header-section-number">2</span> DavMail</h1>
+<h2 id="安装">
+<span class="header-section-number">2.1</span> 安装</h2>
+<p>DavMail的安装比较简单，自己到 <a href="http://davmail.sourceforge.net/download.html">官方下载页面</a> 下载安装文件然后安装即可。</p>
+<h2 id="配置">
+<span class="header-section-number">2.2</span> 配置</h2>
+<p>如下图配置即可：<br>
+<img src="../../../../assets/images/170907_DavMailCfg.png"><br>
+其中OWA(Exchange) URL一栏填入公司邮箱服务器的OWA URL： <a href="https://mail.xxx.com.cn/owa" class="uri">https://mail.xxx.com.cn/owa</a><br>
+如果点击Save按钮保存配置报错说无法绑定端口的话，则自行选择 <strong>没有被占用</strong> 的端口号。<br>
+设置DavMail开机启动：开始菜单-&gt;所有程序-&gt;启动-&gt;右键选择打开，放入DavMail的快捷方式。</p>
+<h1 id="foxmail">
+<span class="header-section-number">3</span> Foxmail</h1>
+<h2 id="安装最新版本可选">
+<span class="header-section-number">3.1</span> 安装最新版本（可选）</h2>
+<p>如前面所述，安装Foxmail并不是必要的，大家可以选择自己常用的邮箱客户端，配置方法是类似的。<br>
+下文以新版Foxmail为例说明配置方法。</p>
+<h2 id="配置-1">
+<span class="header-section-number">3.2</span> 配置</h2>
+<ul><li>新建帐号</li></ul>
+<p>如下图所示选择帐号管理菜单项：<br>
+<img src="../../../../assets/images/170907_FoxmailCfg_menu.png"><br>
+选择新建-&gt;手动设置，如下图配置：<br>
+<img src="../../../../assets/images/170907_FoxmailCfg_account.png"><br>
+图中的邮件帐号根据实际情况填写，端口号要与上面DavMail配置的 <strong>保持一致</strong> 。</p>
+<ul><li>导入通讯录</li></ul>
+<p>如下图所示切换到通讯录标签页：<br>
+<img src="../../../../assets/images/170907_FoxmailCfg_tab.png"><br>
+选择导入-&gt;CSV文件，然后按照提示选择contacts.csv文件（后面会说明如何提取通讯录）导入即可：<br>
+<img src="../../../../assets/images/170907_FoxmailCfg_contacts.png"><br>
+至此配置结束，enjoy!!!</p>
+<h1 id="通讯录提取与更新可选">
+<span class="header-section-number">4</span> 通讯录提取与更新(可选)</h1>
+<p>通讯录根据需要，可以每半年或者一年更新一次，毕竟常联系的也就那么几个。<br>
+通过Address Magic可以导出通讯录，关键操作如下：</p>
+<ul>
+<li><p>源格式选择GAL：<br>
+<img src="../../../../assets/images/170907_AddrMagic_src.png"></p></li>
+<li><p>目标格式选择CSV：<br>
+<img src="../../../../assets/images/170907_AddrMagic_dst.png"></p></li>
+<li><p>导出columns按照下图选择：<br>
+<img src="../../../../assets/images/170907_AddrMagic_col.png"></p></li>
+</ul>
+<p>在导出的CSV文件第一行前面插入新的一行，填入三列内容分别为姓名、电子邮件地址、部门。<br>
+保存文件后通过前面所述的方法打开Foxmail导入通讯录即可。</p>
+
+
+        </article>
+        
+        <div class="ui horizontal grey divider header">Modified at: September 7, 2017</div>
+        
+        <div class="ui hidden divider"></div>
+        <a href="../../../../about#reward">
+          <img class="ui centered image" src="../../../../assets/images/reward.png">
+        </a>
+    </div>
+    <div class="ui secondary segment">
+        <div class="ui list">
+            
+            <a class="item" href="../pandoc%E5%AF%B9org-mode%E6%94%AF%E6%8C%81%E6%83%85%E5%86%B5%E6%B5%8B%E8%AF%95/">
+                <div class="ui url blue label">« Prev</div>Pandoc对Org Mode支持情况测试
+            </a>
+            
+            
+            <a class="item" href="../node.js%E5%9F%BA%E7%A1%80%E5%9B%9E%E9%A1%BE/">
+                <div class="ui url blue label">» Next</div>Node.js基础回顾
+            </a>
+            
+        </div>
+    </div>
+    <div class="ui blue segment">
+		
+        <script>
+         var idcomments_acct = 'c5bb6e189e91abf8985279b97aa3ab46';
+         var idcomments_post_id;
+         var idcomments_post_url;
+        </script>
+        <span id="IDCommentsPostTitle" style="display:none"></span>
+        <script type="text/javascript" src="https://www.intensedebate.com/js/genericCommentWrapperV2.js" defer></script>
+		
+    </div>
+    <div class="sidebar-toggle" style="display: none">
+		<div class="sidebar-toggle-line-wrap">
+			<span class="sidebar-toggle-line sidebar-toggle-line-first" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-middle" style="opacity: 1; width: 100%; left: 0px; top: 0px; transform: rotateZ(0deg);"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-last" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+		</div>
+    </div>
+    <div class="back-to-top"></div>
+</div>
+<script type="text/javascript">
+ function genTocAtLevel(sp, dp, lvl) {
+     c = sp.find('>ul>li');
+     if (0 != c.length) {
+         c.each(function(i,n){
+             nn = $(n);
+             itStr = '<div class="item"></div>';
+             dp.append(itStr);
+
+             it = dp.find('>.item:last');
+             a = nn.find('>a');
+             if (0 != a.length) {
+                 //console.log('level: '+lvl+' item: '+a.text());
+                 // clear id in case of internal links
+                 a.children().attr('id', '');
+
+                 it.append(a.first().clone());
+             }
+             if (0 != nn.find('>ul>li').length){
+                 mnStr = '<div class="menu"></div>';
+                 it.append(mnStr);
+                 mn = it.find('>.menu');
+                 genTocAtLevel(nn, mn, lvl+1);
+             }
+         });
+     }
+ }
+</script>
+
+                </div>
+				        <div id="page-loader" class="ui centered inline loader"></div>
+            </div>
+            <div class="ui hidden divider placeholder"></div>
+
+            <footer class="ui inverted vertical center aligned segment">
+                <div class="ui container">
+                    <script type="text/javascript">
+                    document.write("<p>Copyright © 2011-xxxx by 时聆心语&nbsp;&nbsp;·&nbsp;&nbsp;Powered by Nanoc, Pandoc, Semantic UI, Travis CI, GitHub Pages, etc.</p>".replace('xxxx', new Date().getFullYear()));
+                    </script>
+                </div>
+            </footer>   
+
+        </div>
+
+  
+
+        <!-- JS Includes -->
+        <script src="../../../../assets/jquery.min.js"></script>
+        <script src="../../../../assets/semantic.min.js"></script>
+        <script src="../../../../assets/iframeResizer.contentWindow.min.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript" defer></script>
+    </body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    	   $('.page.header').visibility({
+             type: 'fixed'
+         });
+
+     $('.back-to-top').on('click', function () {
+        $('html,body').animate({scrollTop: 0}, 100);
+     });
+
+     $('span.header-section-number ~ span[data-tag-name]').each(function(i,n){
+         nn = $(n);
+         nn.text(nn.attr('data-tag-name'));
+     });
+
+         if (0 != $('#_home_page_').length) {
+             hp = $('#_home_page_');
+             hp.data('cur_page', 1);
+
+		         $('.page.content > .container').visibility({
+			           once: false,
+			           // update size when new content loads
+			           observeChanges: true,
+			           // load content on bottom edge visible
+			           onBottomVisible: function() {
+				             $('#page-loader').addClass('visible');
+					           getPaginatedArticles(hp.data('cur_page')+1);
+		             }
+			       });
+         }
+
+         if (0 != $('#_SRC_TOC_').length){
+             $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+
+             sp = $('#_SRC_TOC_');
+             dp = $('#_dst_toc_');
+             genTocAtLevel(sp, dp, 1);
+
+            $('.sidebar-toggle').show().on('click', function () {
+                $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+            });
+         }
+		     $(window).bind('hashchange', function() {
+			       if (location.hash) {
+				         var target = $(decodeURI(location.hash));
+				         if(target.length==1) {
+			    	         var top = target.offset().top-$('.page.header').height();
+					           if(top > 0)
+					               {
+					                   $('html,body').animate({scrollTop:top}, 100);
+					               }
+				         }
+				         //location.hash = '';
+				         history.replaceState("", document.title, window.location.pathname + window.location.search);
+			       }
+		     });
+     });
+    </script>
+</html>

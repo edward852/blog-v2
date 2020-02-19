@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- Standard Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <!-- Site Properities -->
+        <title>时聆心语 - Pandoc对Org Mode支持情况测试</title>
+
+        <link rel="stylesheet" type="text/css" href="../../../../assets/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../assets/site.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/ch-pygments.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/readtheorg_smpl.css">
+    </head>
+
+    <body id="gh-site" class="pushable">
+        <div class="ui vertical inverted sidebar menu right" id="_dst_toc_">
+        </div>
+        <div class="pusher">
+            <!-- Global Header -->
+            <div class="page header">
+                <div class="ui main container">
+                    <div class="ui borderless menu">
+                        <a href="../../../../" class="item"><img src="../../../../favicon.ico"></a>
+                        <a href="../../../../archives" class="item">Archives</a>
+                        <a href="../../../../tags" class="item">Tags</a>
+                        <a href="../../../../about" class="item">About</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="page content" data-iframe-height>
+                <div class="ui main container">
+                    
+<div class="ui piled segments">
+    <div class="ui segment">
+        <div class="ui tiny header">
+            <h1>Pandoc对Org Mode支持情况测试</h1>
+        </div>
+    </div>
+    <div class="ui blue segment">
+        <div class="ui basic grey label">Posted at:<div class="detail">September 7, 2017</div>
+</div>
+        <div class="tags">
+<div class="ui teal tag label">Tags:</div>
+<a class="ui basic label" href="../../../../tags/pandoc">Pandoc</a><a class="ui basic label" href="../../../../tags/orgmode">OrgMode</a><a class="ui basic label" href="../../../../tags/spacemacs">Spacemacs</a>
+</div>
+        <div class="ui hidden divider"></div>
+        <article>
+            <nav id="_SRC_TOC_" style="display:none">
+<ul>
+<li>
+<a href="#org-mode"><span class="toc-section-number">1</span> Org Mode</a><ul>
+<li><a href="#%E6%A0%87%E9%A2%98title"><span class="toc-section-number">1.1</span> 标题Title</a></li>
+<li><a href="#%E6%AE%B5%E8%90%BDparagraph"><span class="toc-section-number">1.2</span> 段落Paragraph</a></li>
+<li><a href="#%E9%93%BE%E6%8E%A5%E4%B8%8E%E5%9B%BE%E7%89%87"><span class="toc-section-number">1.3</span> <span id="links"></span>链接与图片</a></li>
+<li><a href="#%E5%88%97%E8%A1%A8"><span class="toc-section-number">1.4</span> 列表</a></li>
+<li><a href="#%E5%AD%97%E4%BD%93%E6%A0%B7%E5%BC%8F"><span class="toc-section-number">1.5</span> 字体样式 <span class="tag" data-tag-name="font"><span class="smallcaps">font</span></span> <span class="tag" data-tag-name="style"><span class="smallcaps">style</span></span></a></li>
+<li><a href="#%E5%85%AC%E5%BC%8F"><span class="toc-section-number">1.6</span> 公式</a></li>
+<li><a href="#%E5%88%86%E9%9A%94%E7%BA%BF"><span class="toc-section-number">1.7</span> 分隔线</a></li>
+<li><a href="#%E6%8F%92%E5%85%A5%E5%BC%95%E7%94%A8%E6%88%96%E8%80%85%E4%BB%A3%E7%A0%81"><span class="toc-section-number">1.8</span> 插入引用或者代码</a></li>
+<li><a href="#%E8%84%9A%E6%B3%A8footnote"><span class="toc-section-number">1.9</span> 脚注Footnote</a></li>
+<li><a href="#%E8%A1%A8%E6%A0%BCtable"><span class="toc-section-number">1.10</span> 表格Table</a></li>
+<li><a href="#%E5%BE%85%E6%B5%8B%E8%AF%95"><span class="toc-section-number">1.11</span> <span class="todo TODO">TODO</span> 待测试</a></li>
+<li><a href="#%E5%B7%B2%E5%AE%8C%E6%88%90"><span class="toc-section-number">1.12</span> <span class="done DONE">DONE</span> 已完成</a></li>
+</ul>
+</li>
+<li><a href="#footnotes"><span class="toc-section-number">2</span> Footnotes</a></li>
+</ul>
+</nav>
+<h1 id="org-mode">
+<span class="header-section-number">1</span> Org Mode</h1>
+<p>本博客的博文是在Spacemacs上通过Org Mode写作的，然后由Pandoc转换成HTML格式的内容。<br>
+本篇主要的内容就是测试Pandoc对Org Mode的支持情况是否满足日常使用需求，也方便以后写作时查阅。<br>
+</p>
+<h2 id="标题title">
+<span class="header-section-number">1.1</span> 标题Title</h2>
+<p>子标题在行首以星号*加空格指定，几个星号就代表几级标题。</p>
+<h2 id="段落paragraph">
+<span class="header-section-number">1.2</span> 段落Paragraph</h2>
+<p>段落之间以至少一行空行为分隔，也可以通过 <code>\\</code> 强制段落内换行。</p>
+<p>段落一的第一行<br>
+段落一的第二行<br>
+…<br>
+段落一的第N行</p>
+<p>段落二的第一行</p>
+<h2 id="链接与图片">
+<span class="header-section-number">1.3</span> <span id="links"></span>链接与图片</h2>
+<p>链接分为分为外部链接和内部链接。<br>
+外部链接，一般就是URL： <img src="http://orgmode.org/img/org-mode-unicorn-logo.png"><br>
+内部链接，也就是引用当前文档的某个位置。<br>
+可以通过以下方式标记位置：</p>
+<pre class="example"><code>&lt;&lt;target&gt;&gt;
+</code></pre>
+<p>其中 <code>target</code> 需要取一个有意义的、文档内唯一的名字。<br>
+然后通过以下方式引用，与HTML的锚类似：</p>
+<pre class="example"><code>[[#target][description]]
+</code></pre>
+<p>戳这个可以跳转到本章节起始位置☞ <a href="#links">链接与图片</a> 。<br>
+快捷键是 <code>SPC m i l</code> ，代表在Spacemacs(SPC)当前模式(Mode)下insert link。</p>
+<h2 id="列表">
+<span class="header-section-number">1.4</span> 列表</h2>
+<p>列表分为有序列表和无序列表。</p>
+<ol>
+<li>有序子项目一<dl>
+<dt>无序子项目 1</dt>
+<dd>子项目1的描述</dd>
+<dt>无序子项目 2</dt>
+<dd>子项目2的描述</dd>
+</dl>
+</li>
+<li>有序子项目二<ul>
+<li>无序子项目 1</li>
+<li>无序子项目 2</li>
+</ul>
+</li>
+</ol>
+<p>以数字+ <code>.</code> 或 <code>)</code> 表示有序列表项：</p>
+<ol><li>有序子项目</li></ol>
+<p>以 <code>-</code> 或 <code>+</code> 表示无序列表项：</p>
+<ul><li>无序子项目</li></ul>
+<h2 id="字体样式">
+<span class="header-section-number">1.5</span> 字体样式 <span class="tag" data-tag-name="font"><span class="smallcaps">font</span></span> <span class="tag" data-tag-name="style"><span class="smallcaps">style</span></span>
+</h2>
+<p>字体样式常用的有粗体、斜体、下划线、删除线、上标、下标等。<br>
+<code>/斜体字/</code> 对应 <em>斜体字</em><br>
+<code>*粗体字*</code> 对应 <strong>粗体字</strong><br>
+<code>+删除线+</code> 对应 <del>删除线</del><br>
+<code>_下划线_</code> 对应 <span class="underline">下划线</span><br>
+<code>~字面量~</code> 对应 <code>字面量</code><br>
+<code>=等宽字=</code> 对应 <code>等宽字</code><br>
+<code>H_{2}O</code> 对应 H<sub>2</sub>O<br>
+<code>X^2</code> 对应 X<sup>2</sup><br>
+可以看出来目前Pandoc并不支持下划线的样式。<br>
+</p>
+<h2 id="公式">
+<span class="header-section-number">1.6</span> 公式</h2>
+<p>比较考验排版能力的数学公式，通过LaTex表示毫无压力、逼格满满。<br>
+正文显示公式：<span class="math inline">\(\sum_{i=0}^N\int_{a}^{b}g(t,i)\text{d}t\)</span><br>
+单独显示公式：<span class="math display">\[\sum_{i=0}^N\int_{a}^{b}g(t,i)\text{d}t\]</span><br>
+If <span class="math inline">\(a^2=b\)</span> and <span class="math inline">\( b=2 \)</span>, then the solution must be either <span class="math inline">\(a=+\sqrt{2}\)</span> or <span class="math inline">\(a=-\sqrt{2}\)</span>.<br>
+需要注意的是，这个特性的支持需要开启Pandoc的mathjax选项。</p>
+<h2 id="分隔线">
+<span class="header-section-number">1.7</span> 分隔线</h2>
+<p>5个以上横杠 <code>-</code> 单独为一行可以显示分隔线：</p>
+<hr>
+<h2 id="插入引用或者代码">
+<span class="header-section-number">1.8</span> 插入引用或者代码</h2>
+<p>引用：</p>
+<blockquote><p>Stay Hungry. Stay Foolish – Steve Jobs</p></blockquote>
+<p>插入elisp代码：</p>
+<div class="sourceCode" id="cb3" data-org-language="emacs-lisp"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp"><a class="sourceLine" id="cb3-1" data-line-number="1">(message <span class="st">"hello world"</span>)</a></code></pre></div>
+<p>C代码：</p>
+<div class="sourceCode" id="cb4" data-startfrom=""><pre class="sourceCode numberSource c numberLines"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="dt">int</span> sayHello()</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">    printf(<span class="st">"Hello!</span><span class="sc">\n</span><span class="st">"</span>); <span class="co">// hello everyone</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">}</a></code></pre></div>
+<p>js代码：</p>
+<div class="sourceCode" id="cb5" data-org-language="js"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">var</span> txt<span class="op">=</span><span class="st">"Hello world!"</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="va">document</span>.<span class="at">write</span>(<span class="va">txt</span>.<span class="at">length</span>)<span class="op">;</span></a></code></pre></div>
+<p>org代码：</p>
+<pre class="org"><code>#+BEGIN_EXAMPLE
+举栗子给猴看
+#+END_EXAMPLE
+</code></pre>
+<p>居中文字：</p>
+<div class="CENTER"><p>居中的文字</p></div>
+<p>verse测试：</p>
+<p>This is verse</p>
+<p>目前Pandoc并不支持通过 <code>#+INCLUDE:</code> 插入文件内容</p>
+<h2 id="脚注footnote">
+<span class="header-section-number">1.9</span> 脚注Footnote</h2>
+<p>脚注<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>主要有数字脚注和命名脚注。<br>
+在行首以下面的方式可以定义脚注：</p>
+<p><code>[fn:数字] 数字脚注内容</code><br>
+<code>[fn:名字] 命名脚注内容</code><br>
+在文中通过 <code>[fn:数字]</code> 或者 <code>[fn:名字]</code> 引用即可。<br>
+创建脚注的快捷键是 <code>SPC m i f</code> ，代表在Spacemacs(SPC)当前模式(Mode)下insert footnote。<br>
+脚注和原文之间的跳转也十分简单，在方框内敲回车即可。</p>
+<h2 id="表格table">
+<span class="header-section-number">1.10</span> 表格Table</h2>
+<p>Org Mode下创建表格十分简便，基本上组合使用 <code>|</code> <code>-</code> <code>Tab</code> 这几个按键即可。<br>
+表格自动对齐和跳转使用 <code>Tab</code> 和 <code>Shift Tab</code> ，谁用谁知道 <img src="../../../../assets/images/emoticon_huaji.png"> 。<br>
+<img src="../../../../assets/images/170907_org_tbl.gif"></p>
+<table>
+<thead><tr class="header">
+<th>key</th>
+<th>value</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>long key</td>
+<td>long测试中文</td>
+</tr></tbody>
+</table>
+<h2 id="待测试">
+<span class="header-section-number">1.11</span> <span class="todo TODO">TODO</span> 待测试</h2>
+<p>不常用的特性还没测试。如果有某些特性需要我帮忙测试的话，可以在下面留言^_^。</p>
+<h2 id="已完成">
+<span class="header-section-number">1.12</span> <span class="done DONE">DONE</span> 已完成</h2>
+<p>CLOSED: &lt;2017-09-07 Thu 16:56&gt;</p>
+<p>已完成大部分常用特性的测试<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>。</p>
+<h1 id="footnotes">
+<span class="header-section-number">2</span> Footnotes</h1>
+<section class="footnotes"><hr>
+<ol>
+<li id="fn1"><p><a href="http://orgmode.org/org.html#Footnotes" class="uri">http://orgmode.org/org.html#Footnotes</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p><a href="http://orgmode.org/org.html" class="uri">http://orgmode.org/org.html</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol></section>
+
+
+        </article>
+        
+        <div class="ui horizontal grey divider header">Modified at: September 7, 2017</div>
+        
+        <div class="ui hidden divider"></div>
+        <a href="../../../../about#reward">
+          <img class="ui centered image" src="../../../../assets/images/reward.png">
+        </a>
+    </div>
+    <div class="ui secondary segment">
+        <div class="ui list">
+            
+            <a class="item" href="../%E6%96%B0%E5%8D%9A%E5%AE%A2%E5%90%AF%E7%94%A8/">
+                <div class="ui url blue label">« Prev</div>新博客启用
+            </a>
+            
+            
+            <a class="item" href="../foxmail%E5%8A%A0davmail%E8%AE%BF%E9%97%AEexchange%E9%82%AE%E7%AE%B1/">
+                <div class="ui url blue label">» Next</div>Foxmail加DavMail访问Exchange邮箱
+            </a>
+            
+        </div>
+    </div>
+    <div class="ui blue segment">
+		
+        <script>
+         var idcomments_acct = 'c5bb6e189e91abf8985279b97aa3ab46';
+         var idcomments_post_id;
+         var idcomments_post_url;
+        </script>
+        <span id="IDCommentsPostTitle" style="display:none"></span>
+        <script type="text/javascript" src="https://www.intensedebate.com/js/genericCommentWrapperV2.js" defer></script>
+		
+    </div>
+    <div class="sidebar-toggle" style="display: none">
+		<div class="sidebar-toggle-line-wrap">
+			<span class="sidebar-toggle-line sidebar-toggle-line-first" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-middle" style="opacity: 1; width: 100%; left: 0px; top: 0px; transform: rotateZ(0deg);"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-last" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+		</div>
+    </div>
+    <div class="back-to-top"></div>
+</div>
+<script type="text/javascript">
+ function genTocAtLevel(sp, dp, lvl) {
+     c = sp.find('>ul>li');
+     if (0 != c.length) {
+         c.each(function(i,n){
+             nn = $(n);
+             itStr = '<div class="item"></div>';
+             dp.append(itStr);
+
+             it = dp.find('>.item:last');
+             a = nn.find('>a');
+             if (0 != a.length) {
+                 //console.log('level: '+lvl+' item: '+a.text());
+                 // clear id in case of internal links
+                 a.children().attr('id', '');
+
+                 it.append(a.first().clone());
+             }
+             if (0 != nn.find('>ul>li').length){
+                 mnStr = '<div class="menu"></div>';
+                 it.append(mnStr);
+                 mn = it.find('>.menu');
+                 genTocAtLevel(nn, mn, lvl+1);
+             }
+         });
+     }
+ }
+</script>
+
+                </div>
+				        <div id="page-loader" class="ui centered inline loader"></div>
+            </div>
+            <div class="ui hidden divider placeholder"></div>
+
+            <footer class="ui inverted vertical center aligned segment">
+                <div class="ui container">
+                    <script type="text/javascript">
+                    document.write("<p>Copyright © 2011-xxxx by 时聆心语&nbsp;&nbsp;·&nbsp;&nbsp;Powered by Nanoc, Pandoc, Semantic UI, Travis CI, GitHub Pages, etc.</p>".replace('xxxx', new Date().getFullYear()));
+                    </script>
+                </div>
+            </footer>   
+
+        </div>
+
+  
+
+        <!-- JS Includes -->
+        <script src="../../../../assets/jquery.min.js"></script>
+        <script src="../../../../assets/semantic.min.js"></script>
+        <script src="../../../../assets/iframeResizer.contentWindow.min.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript" defer></script>
+    </body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    	   $('.page.header').visibility({
+             type: 'fixed'
+         });
+
+     $('.back-to-top').on('click', function () {
+        $('html,body').animate({scrollTop: 0}, 100);
+     });
+
+     $('span.header-section-number ~ span[data-tag-name]').each(function(i,n){
+         nn = $(n);
+         nn.text(nn.attr('data-tag-name'));
+     });
+
+         if (0 != $('#_home_page_').length) {
+             hp = $('#_home_page_');
+             hp.data('cur_page', 1);
+
+		         $('.page.content > .container').visibility({
+			           once: false,
+			           // update size when new content loads
+			           observeChanges: true,
+			           // load content on bottom edge visible
+			           onBottomVisible: function() {
+				             $('#page-loader').addClass('visible');
+					           getPaginatedArticles(hp.data('cur_page')+1);
+		             }
+			       });
+         }
+
+         if (0 != $('#_SRC_TOC_').length){
+             $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+
+             sp = $('#_SRC_TOC_');
+             dp = $('#_dst_toc_');
+             genTocAtLevel(sp, dp, 1);
+
+            $('.sidebar-toggle').show().on('click', function () {
+                $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+            });
+         }
+		     $(window).bind('hashchange', function() {
+			       if (location.hash) {
+				         var target = $(decodeURI(location.hash));
+				         if(target.length==1) {
+			    	         var top = target.offset().top-$('.page.header').height();
+					           if(top > 0)
+					               {
+					                   $('html,body').animate({scrollTop:top}, 100);
+					               }
+				         }
+				         //location.hash = '';
+				         history.replaceState("", document.title, window.location.pathname + window.location.search);
+			       }
+		     });
+     });
+    </script>
+</html>

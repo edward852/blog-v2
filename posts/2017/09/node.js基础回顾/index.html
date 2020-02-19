@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- Standard Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <!-- Site Properities -->
+        <title>时聆心语 - Node.js基础回顾</title>
+
+        <link rel="stylesheet" type="text/css" href="../../../../assets/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../assets/site.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/ch-pygments.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/readtheorg_smpl.css">
+    </head>
+
+    <body id="gh-site" class="pushable">
+        <div class="ui vertical inverted sidebar menu right" id="_dst_toc_">
+        </div>
+        <div class="pusher">
+            <!-- Global Header -->
+            <div class="page header">
+                <div class="ui main container">
+                    <div class="ui borderless menu">
+                        <a href="../../../../" class="item"><img src="../../../../favicon.ico"></a>
+                        <a href="../../../../archives" class="item">Archives</a>
+                        <a href="../../../../tags" class="item">Tags</a>
+                        <a href="../../../../about" class="item">About</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="page content" data-iframe-height>
+                <div class="ui main container">
+                    
+<div class="ui piled segments">
+    <div class="ui segment">
+        <div class="ui tiny header">
+            <h1>Node.js基础回顾</h1>
+        </div>
+    </div>
+    <div class="ui blue segment">
+        <div class="ui basic grey label">Posted at:<div class="detail">September 18, 2017</div>
+</div>
+        <div class="tags">
+<div class="ui teal tag label">Tags:</div>
+<a class="ui basic label" href="../../../../tags/node.js">Node.js</a><a class="ui basic label" href="../../../../tags/npm">npm</a>
+</div>
+        <div class="ui hidden divider"></div>
+        <article>
+            <nav id="_SRC_TOC_" style="display:none">
+<ul>
+<li><a href="#%E7%BC%98%E8%B5%B7"><span class="toc-section-number">1</span> 缘起</a></li>
+<li><a href="#npm%E4%B8%8Ecnpm"><span class="toc-section-number">2</span> npm与cnpm</a></li>
+<li><a href="#node%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="toc-section-number">3</span> Node版本管理</a></li>
+<li><a href="#%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E6%A8%A1%E5%9D%97"><span class="toc-section-number">4</span> 离线安装模块</a></li>
+<li><a href="#hello-world"><span class="toc-section-number">5</span> Hello World</a></li>
+<li><a href="#%E5%B0%8F%E7%BB%93"><span class="toc-section-number">6</span> 小结</a></li>
+</ul>
+</nav>
+<h1 id="缘起">
+<span class="header-section-number">1</span> 缘起</h1>
+<p>认识 <a href="https://nodejs.org">Node.js</a> 是在一个偶然的机会，当时搭建的页面框架需要压缩页面，用到了Node.js的模块 <a href="https://www.npmjs.com/package/html-minifier">html-minifier</a> 。</p>
+<p>要使用html-minifier首先要安装Node.js，然后再通过npm安装模块。<br>
+不同平台安装Node.js都比较简单，按照官网下载页面上说的做就好了。<br>
+Node.js我个人的使用感受是Windows上比较慢、问题较多，而Linux和Mac上比较快、问题较少。</p>
+<h1 id="npm与cnpm">
+<span class="header-section-number">2</span> npm与cnpm</h1>
+<p>npm是Node.js的包管理器，主要用来安装模块。不过国内用过的人都知道，npm下载非常的慢！<br>
+幸运的是我们有国内的镜像源，也就是<a href="http://npm.taobao.org/"> 淘宝NPM镜像</a> , 通过它可以大大加快模块安装的速度。<br>
+使用方法一是设置npm的registry为https://registry.npm.taobao.org ，设置命令是npm set registry。<br>
+使用方法二是安装cnpm：</p>
+<div class="sourceCode" id="cb1" data-org-language="sh"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">$ <span class="ex">npm</span> install -g cnpm --registry=https://registry.npm.taobao.org</a></code></pre></div>
+<p>后续就可以通过cnpm像npm一样的安装模块了。个人比较推荐第二种方法。</p>
+<h1 id="node版本管理">
+<span class="header-section-number">3</span> Node版本管理</h1>
+<p>Node.js版本更新很快，记得我最早使用的是0.10.21版本，现在最新都已经到了8.5.0版本。<br>
+更新或者管理node版本，可以通过n模块实现：</p>
+<div class="sourceCode" id="cb2" data-org-language="sh"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">$ <span class="ex">npm</span> install -g n</a></code></pre></div>
+<p>常用的就是n latest或者n lts命令了。没有特别需求的话，建议安装lts(Long Term Support)版本，不用频繁更新。</p>
+<h1 id="离线安装模块">
+<span class="header-section-number">4</span> 离线安装模块</h1>
+<p>正如国内被墙一样，公司内一般也会限制访问外部网站，所以经常出现安装模块失败的情况，根源都在于某些url访问不了。<br>
+申请访问权限手续麻烦是一方面，另一方面是我们不清楚模块安装的过程都要访问哪些url，来回多次申请肯定是不现实的。<br>
+还好已经有现成的模块可以解决这个问题，就是 <a href="https://www.npmjs.com/package/npmbox">npmbox</a> 。<br>
+npmbox其实有个鸡生蛋还是蛋生鸡的问题，就是离线安装模块需要用到npmbox，而npmbox本身也需要安装，也需要访问许多外网地址…<br>
+npmbox解决这个问题的方法还是挺巧妙的，就是在能访问外网的电脑上(比如说你自己家里的电脑)先把npmbox需要的资源都先下载好弄成压缩包，然后再转到公司网络内(作为研发人员这种权限都有吧)，最后解压、作为npm的cache文件夹安装npmbox。<br>
+说到这里，可能有人会问，公司内怎么安装Node.js？如果外网访问权限高当然是直接安装就好了，只有传入文件的权限，那么就只能通过下载安装包进行安装了。<br>
+下载、安装完npmbox后，安装其他模块的基本流程也是差不多的：</p>
+<div class="sourceCode" id="cb3" data-org-language="sh"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">$ <span class="ex">npmunbox</span> xxxModule.npmbox</a></code></pre></div>
+<p>其中xxxModule.npmbox就是在外网通过npmbox下载、生成的压缩包，可以在内网离线安装。</p>
+<h1 id="hello-world">
+<span class="header-section-number">5</span> Hello World</h1>
+<p>Node.js官方文档上有Hello World的 <a href="https://nodejs.org/api/synopsis.html#synopsis_example">example</a> ，是一个简单的Web服务器返回Hello World页面的例子，展示了Node.js的简洁与强大。<br>
+我这里也简单的举个例子，首先新建一个example.js文件，内容如下：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="va">console</span>.<span class="at">log</span>(<span class="st">'Hello World!'</span>)<span class="op">;</span></a></code></pre></div>
+<p>然后执行命令：</p>
+<div class="sourceCode" id="cb5" data-org-language="sh"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">$ <span class="ex">node</span> example.js</a></code></pre></div>
+<p>一个超简单的hello world就出来啦。</p>
+<h1 id="小结">
+<span class="header-section-number">6</span> 小结</h1>
+<p>本文主要是解决搭建Node.js开发环境可能遇到的一些比较基础的问题，深入的掌握还需要通过查看 <a href="https://nodejs.org/api/">api文档</a> 和实践来解决。</p>
+
+
+        </article>
+        
+        <div class="ui horizontal grey divider header">Modified at: September 18, 2017</div>
+        
+        <div class="ui hidden divider"></div>
+        <a href="../../../../about#reward">
+          <img class="ui centered image" src="../../../../assets/images/reward.png">
+        </a>
+    </div>
+    <div class="ui secondary segment">
+        <div class="ui list">
+            
+            <a class="item" href="../foxmail%E5%8A%A0davmail%E8%AE%BF%E9%97%AEexchange%E9%82%AE%E7%AE%B1/">
+                <div class="ui url blue label">« Prev</div>Foxmail加DavMail访问Exchange邮箱
+            </a>
+            
+            
+            <a class="item" href="../node.js%E8%B0%83%E8%AF%95/">
+                <div class="ui url blue label">» Next</div>Node.js调试
+            </a>
+            
+        </div>
+    </div>
+    <div class="ui blue segment">
+		
+        <script>
+         var idcomments_acct = 'c5bb6e189e91abf8985279b97aa3ab46';
+         var idcomments_post_id;
+         var idcomments_post_url;
+        </script>
+        <span id="IDCommentsPostTitle" style="display:none"></span>
+        <script type="text/javascript" src="https://www.intensedebate.com/js/genericCommentWrapperV2.js" defer></script>
+		
+    </div>
+    <div class="sidebar-toggle" style="display: none">
+		<div class="sidebar-toggle-line-wrap">
+			<span class="sidebar-toggle-line sidebar-toggle-line-first" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-middle" style="opacity: 1; width: 100%; left: 0px; top: 0px; transform: rotateZ(0deg);"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-last" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+		</div>
+    </div>
+    <div class="back-to-top"></div>
+</div>
+<script type="text/javascript">
+ function genTocAtLevel(sp, dp, lvl) {
+     c = sp.find('>ul>li');
+     if (0 != c.length) {
+         c.each(function(i,n){
+             nn = $(n);
+             itStr = '<div class="item"></div>';
+             dp.append(itStr);
+
+             it = dp.find('>.item:last');
+             a = nn.find('>a');
+             if (0 != a.length) {
+                 //console.log('level: '+lvl+' item: '+a.text());
+                 // clear id in case of internal links
+                 a.children().attr('id', '');
+
+                 it.append(a.first().clone());
+             }
+             if (0 != nn.find('>ul>li').length){
+                 mnStr = '<div class="menu"></div>';
+                 it.append(mnStr);
+                 mn = it.find('>.menu');
+                 genTocAtLevel(nn, mn, lvl+1);
+             }
+         });
+     }
+ }
+</script>
+
+                </div>
+				        <div id="page-loader" class="ui centered inline loader"></div>
+            </div>
+            <div class="ui hidden divider placeholder"></div>
+
+            <footer class="ui inverted vertical center aligned segment">
+                <div class="ui container">
+                    <script type="text/javascript">
+                    document.write("<p>Copyright © 2011-xxxx by 时聆心语&nbsp;&nbsp;·&nbsp;&nbsp;Powered by Nanoc, Pandoc, Semantic UI, Travis CI, GitHub Pages, etc.</p>".replace('xxxx', new Date().getFullYear()));
+                    </script>
+                </div>
+            </footer>   
+
+        </div>
+
+  
+
+        <!-- JS Includes -->
+        <script src="../../../../assets/jquery.min.js"></script>
+        <script src="../../../../assets/semantic.min.js"></script>
+        <script src="../../../../assets/iframeResizer.contentWindow.min.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript" defer></script>
+    </body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    	   $('.page.header').visibility({
+             type: 'fixed'
+         });
+
+     $('.back-to-top').on('click', function () {
+        $('html,body').animate({scrollTop: 0}, 100);
+     });
+
+     $('span.header-section-number ~ span[data-tag-name]').each(function(i,n){
+         nn = $(n);
+         nn.text(nn.attr('data-tag-name'));
+     });
+
+         if (0 != $('#_home_page_').length) {
+             hp = $('#_home_page_');
+             hp.data('cur_page', 1);
+
+		         $('.page.content > .container').visibility({
+			           once: false,
+			           // update size when new content loads
+			           observeChanges: true,
+			           // load content on bottom edge visible
+			           onBottomVisible: function() {
+				             $('#page-loader').addClass('visible');
+					           getPaginatedArticles(hp.data('cur_page')+1);
+		             }
+			       });
+         }
+
+         if (0 != $('#_SRC_TOC_').length){
+             $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+
+             sp = $('#_SRC_TOC_');
+             dp = $('#_dst_toc_');
+             genTocAtLevel(sp, dp, 1);
+
+            $('.sidebar-toggle').show().on('click', function () {
+                $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+            });
+         }
+		     $(window).bind('hashchange', function() {
+			       if (location.hash) {
+				         var target = $(decodeURI(location.hash));
+				         if(target.length==1) {
+			    	         var top = target.offset().top-$('.page.header').height();
+					           if(top > 0)
+					               {
+					                   $('html,body').animate({scrollTop:top}, 100);
+					               }
+				         }
+				         //location.hash = '';
+				         history.replaceState("", document.title, window.location.pathname + window.location.search);
+			       }
+		     });
+     });
+    </script>
+</html>

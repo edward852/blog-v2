@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- Standard Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <!-- Site Properities -->
+        <title>时聆心语 - 常见排序算法</title>
+
+        <link rel="stylesheet" type="text/css" href="../../../../assets/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../assets/site.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/ch-pygments.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/readtheorg_smpl.css">
+    </head>
+
+    <body id="gh-site" class="pushable">
+        <div class="ui vertical inverted sidebar menu right" id="_dst_toc_">
+        </div>
+        <div class="pusher">
+            <!-- Global Header -->
+            <div class="page header">
+                <div class="ui main container">
+                    <div class="ui borderless menu">
+                        <a href="../../../../" class="item"><img src="../../../../favicon.ico"></a>
+                        <a href="../../../../archives" class="item">Archives</a>
+                        <a href="../../../../tags" class="item">Tags</a>
+                        <a href="../../../../about" class="item">About</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="page content" data-iframe-height>
+                <div class="ui main container">
+                    
+<div class="ui piled segments">
+    <div class="ui segment">
+        <div class="ui tiny header">
+            <h1>常见排序算法</h1>
+        </div>
+    </div>
+    <div class="ui blue segment">
+        <div class="ui basic grey label">Posted at:<div class="detail">February 8, 2018</div>
+</div>
+        <div class="tags">
+<div class="ui teal tag label">Tags:</div>
+<a class="ui basic label" href="../../../../tags/algorithm">Algorithm</a><a class="ui basic label" href="../../../../tags/sorting">Sorting</a>
+</div>
+        <div class="ui hidden divider"></div>
+        <article>
+            <nav id="_SRC_TOC_" style="display:none">
+<ul>
+<li><a href="#%E7%AE%80%E4%BB%8B"><span class="toc-section-number">1</span> 简介</a></li>
+<li><a href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-section-number">2</span> 冒泡排序</a></li>
+<li><a href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-section-number">3</span> 归并排序</a></li>
+<li><a href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-section-number">4</span> 快速排序</a></li>
+<li>
+<a href="#%E5%A4%A7%E5%B0%8F%E5%A0%86%E4%B8%8E%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-section-number">5</span> 大小堆与堆排序</a><ul>
+<li><a href="#%E4%BA%8C%E5%8F%89%E5%A0%86%E7%9A%84%E7%89%B9%E6%80%A7"><span class="toc-section-number">5.1</span> 二叉堆的特性</a></li>
+<li><a href="#%E5%A0%86%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-section-number">5.2</span> 堆的存储</a></li>
+<li><a href="#%E5%A0%86%E7%9A%84%E5%85%83%E7%B4%A0%E6%8F%92%E5%85%A5"><span class="toc-section-number">5.3</span> 堆的元素插入</a></li>
+<li><a href="#%E5%A0%86%E7%9A%84%E5%85%83%E7%B4%A0%E5%88%A0%E9%99%A4"><span class="toc-section-number">5.4</span> 堆的元素删除</a></li>
+<li><a href="#%E5%A0%86%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="toc-section-number">5.5</span> 堆的建立</a></li>
+<li><a href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-section-number">5.6</span> 堆排序</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-section-number">6</span> 插入排序</a></li>
+<li><a href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-section-number">7</span> 选择排序</a></li>
+<li><a href="#%E5%B8%8C%E5%B0%94shell%E6%8E%92%E5%BA%8F"><span class="toc-section-number">8</span> 希尔(Shell)排序</a></li>
+<li><a href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8Fradixsortbucketsort"><span class="toc-section-number">9</span> 基数排序/RadixSort/BucketSort</a></li>
+</ul>
+</nav>
+<h1 id="简介">
+<span class="header-section-number">1</span> 简介</h1>
+<p>本文参考 <a href="http://download.csdn.net/download/morewindows/4443208">白话经典算法之七大排序</a> ，介绍常见的排序算法，包括原理和实现。</p>
+<h1 id="冒泡排序">
+<span class="header-section-number">2</span> 冒泡排序</h1>
+<p>冒泡排序主要原理就是依次通过交换排序相邻元素，使得较大元素移到后面，这样第N轮最差能够排序好前N大元素。<br>
+当然对于N个元素来说，最多只需要N-1轮。<br>
+</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="dt">void</span> BubbleSortV1(<span class="dt">int</span> nums[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    <span class="co">// check</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    <span class="cf">if</span> (!nums) <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="cf">for</span> (<span class="dt">int</span> end=size<span class="dv">-1</span>; <span class="dv">0</span>&lt;end; end--)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    {</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">        <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">0</span>, end=size<span class="dv">-1</span>; idx&lt;end; idx++)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">        {</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">            <span class="cf">if</span> (nums[idx] &gt; nums[idx<span class="dv">+1</span>])</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">            {</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">                swap(nums[idx], nums[idx<span class="dv">+1</span>]);</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">            }</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">        }</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">    }</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">}</a></code></pre></div>
+<p>冒泡排序第一种优化是每一轮检查是否发生交换，如果没有则说明排序已经完成。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="dt">void</span> BubbleSortV2(<span class="dt">int</span> nums[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="co">// check</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    <span class="cf">if</span> (!nums) <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="cf">for</span> (<span class="dt">int</span> end=size<span class="dv">-1</span>; <span class="dv">0</span>&lt;end; end--)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">    {</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">        <span class="dt">int</span> swapped = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">        <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">0</span>, end=size<span class="dv">-1</span>; idx&lt;end; idx++)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">        {</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">            <span class="cf">if</span> (nums[idx] &gt; nums[idx<span class="dv">+1</span>])</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">            {</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">                swapped = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">                swap(nums[idx], nums[idx<span class="dv">+1</span>]);</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">            }</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">        }</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">        <span class="cf">if</span> (!swapped)</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">        {</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">            <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">        }</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">    }</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">}</a></code></pre></div>
+<p>冒泡排序第二种优化是每一轮记录最后一次交换的位置，下一轮只要遍历到这个位置即可。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="dt">void</span> BubbleSortV3(<span class="dt">int</span> nums[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="co">// check</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="cf">if</span> (!nums) <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">    <span class="cf">for</span> (<span class="dt">int</span> end=size<span class="dv">-1</span>; <span class="dv">0</span>&lt;end; end--)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    {</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">        <span class="dt">int</span> last = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">        <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">0</span>, end=size<span class="dv">-1</span>; idx&lt;end; idx++)</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">        {</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">            <span class="cf">if</span> (nums[idx] &gt; nums[idx<span class="dv">+1</span>])</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">            {</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">                last = idx;</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">                swap(nums[idx], nums[idx<span class="dv">+1</span>]);</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">            }</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">        }</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">        end = last<span class="dv">+1</span>;</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">    }</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">}</a></code></pre></div>
+<h1 id="归并排序">
+<span class="header-section-number">3</span> 归并排序</h1>
+<p>归并排序的重点在于合并。<br>
+合并两个有序的序列是比较容易的：<br>
+比较两序列第一个元素，取出较小的，然后重复上述步骤直到有序列为空，然后从另一序列取出剩余元素。<br>
+容易知道单个元素序列是有序的；两个元素的序列可以拆分为两个单元素序列后合并成新的有序序列。<br>
+既然如此，那么对于任意长度序列，我们总是可以将其二分为两个相邻序列，然后通过递归完成合并工作。<br>
+这个递归过程最终会把序列拆分为单元素序列，而单元素序列是有序的，递归收敛，开始合并结果。<br>
+这样通过先递归的分解数列，再合并数列就完成了归并排序。<br>
+代码如下：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="dt">void</span> MergeSortHelper(<span class="dt">int</span> nums[], <span class="dt">int</span> l, <span class="dt">int</span> r, <span class="dt">int</span> temp[])</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="cf">if</span> (l &gt;= r)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    {</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">        <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">    }</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">    <span class="dt">int</span> m = l + (r-l)/<span class="dv">2</span>; <span class="co">// prevent overflow</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">    MergeSortHelper(nums, l,   m, temp);</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">    MergeSortHelper(nums, m<span class="dv">+1</span>, r, temp);</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">    <span class="co">// [l, m] and [m+1, r] are sorted</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">    <span class="co">// merge [l, m] and [m+1, r]</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">    <span class="dt">int</span> i=l;</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">    <span class="dt">int</span> j=m<span class="dv">+1</span>;</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">    <span class="dt">int</span> k=l;</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">    <span class="cf">while</span> (i&lt;=m &amp;&amp; j&lt;=r)</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">    {</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">        <span class="cf">if</span> (nums[i] &lt; nums[j])</a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">        {</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">            temp[k] = nums[i++];</a>
+<a class="sourceLine" id="cb4-24" data-line-number="24">        }</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">        <span class="cf">else</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">        {</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27">            temp[k] = nums[j++];</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28">        }</a>
+<a class="sourceLine" id="cb4-29" data-line-number="29">        k++;</a>
+<a class="sourceLine" id="cb4-30" data-line-number="30">    }</a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32">    <span class="cf">while</span> (i&lt;=m)</a>
+<a class="sourceLine" id="cb4-33" data-line-number="33">    {</a>
+<a class="sourceLine" id="cb4-34" data-line-number="34">        temp[k++] = nums[i++];</a>
+<a class="sourceLine" id="cb4-35" data-line-number="35">    }</a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37">    <span class="cf">while</span> (j&lt;=r)</a>
+<a class="sourceLine" id="cb4-38" data-line-number="38">    {</a>
+<a class="sourceLine" id="cb4-39" data-line-number="39">        temp[k++] = nums[j++];</a>
+<a class="sourceLine" id="cb4-40" data-line-number="40">    }</a>
+<a class="sourceLine" id="cb4-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb4-42" data-line-number="42">    <span class="cf">while</span> (l&lt;=--k)</a>
+<a class="sourceLine" id="cb4-43" data-line-number="43">    {</a>
+<a class="sourceLine" id="cb4-44" data-line-number="44">        nums[k] = temp[k];</a>
+<a class="sourceLine" id="cb4-45" data-line-number="45">    }</a>
+<a class="sourceLine" id="cb4-46" data-line-number="46">}</a>
+<a class="sourceLine" id="cb4-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb4-48" data-line-number="48"><span class="dt">void</span> MergeSort(<span class="dt">int</span> nums[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb4-49" data-line-number="49">{</a>
+<a class="sourceLine" id="cb4-50" data-line-number="50">    <span class="dt">int</span> *temp = <span class="kw">new</span> <span class="dt">int</span>[size];</a>
+<a class="sourceLine" id="cb4-51" data-line-number="51"></a>
+<a class="sourceLine" id="cb4-52" data-line-number="52">    MergeSortHelper(nums, <span class="dv">0</span>, size<span class="dv">-1</span>, temp);</a>
+<a class="sourceLine" id="cb4-53" data-line-number="53"></a>
+<a class="sourceLine" id="cb4-54" data-line-number="54">    <span class="kw">delete</span>[] temp;</a>
+<a class="sourceLine" id="cb4-55" data-line-number="55">}</a></code></pre></div>
+<h1 id="快速排序">
+<span class="header-section-number">4</span> 快速排序</h1>
+<p>快速排序基本思路如下：</p>
+<ol>
+<li>先从数列中选出一个数(一般就是第一个数)作为基准数</li>
+<li>比基准数大的数移到它的右边，小于或等于它的数移到它的左边</li>
+<li>对于基准数左右两边区间重复第2步，直到区间内只有一个数</li>
+</ol>
+<p>其中第二步可以简单理解为挖坑填数。<br>
+挖坑填数步骤如下：</p>
+<ol>
+<li>frnt = l; back = r; 将基准数挖出形成第一个坑arr[frnt]</li>
+<li>back–由后向前找比基准数小的数，填坑arr[frnt]，形成新坑arr[back]</li>
+<li>frnt++由前向后找比基准数大的数，填坑arr[back]，形成新坑arr[frnt]</li>
+<li>再重复执行第2，3 二步直到 frnt==back，将基准数填坑arr[frnt]</li>
+</ol>
+<p>以一个数组作为示例，取区间第一个数为基准数。</p>
+<table><tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td><del>72</del></td>
+<td>6</td>
+<td>57</td>
+<td>88</td>
+<td>60</td>
+<td>42</td>
+<td>83</td>
+<td>73</td>
+<td>48</td>
+<td>85</td>
+</tr>
+</tbody></table>
+<p>frnt=0, back=8</p>
+<table><tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td><strong>48</strong></td>
+<td>6</td>
+<td>57</td>
+<td>88</td>
+<td>60</td>
+<td>42</td>
+<td>83</td>
+<td>73</td>
+<td><del>48</del></td>
+<td>85</td>
+</tr>
+</tbody></table>
+<p>frnt=3, back=8</p>
+<table><tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td>6</td>
+<td>57</td>
+<td><del>88</del></td>
+<td>60</td>
+<td>42</td>
+<td>83</td>
+<td>73</td>
+<td><strong>88</strong></td>
+<td>85</td>
+</tr>
+</tbody></table>
+<p>frnt=3, back=5</p>
+<table><tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td>6</td>
+<td>57</td>
+<td><strong>42</strong></td>
+<td>60</td>
+<td><del>42</del></td>
+<td>83</td>
+<td>73</td>
+<td>88</td>
+<td>85</td>
+</tr>
+</tbody></table>
+<p>frnt=5, back=5</p>
+<table><tbody>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td>6</td>
+<td>57</td>
+<td>42</td>
+<td>60</td>
+<td><strong>72</strong></td>
+<td>83</td>
+<td>73</td>
+<td>88</td>
+<td>85</td>
+</tr>
+</tbody></table>
+<p>从上面可以看到，比72小的数都在72左边，比72大的数都在72右边。</p>
+<p>代码如下：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="dt">void</span> partitionArray(<span class="dt">int</span> arr[], <span class="dt">int</span> l, <span class="dt">int</span> r)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="dt">int</span> seperator = arr[l];</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="dt">int</span> frnt = l;</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="dt">int</span> back = r;</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">    <span class="cf">if</span> (l&gt;=r)</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">    {</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">        <span class="cf">return</span>;</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">    }</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">    <span class="cf">while</span> (frnt&lt;back)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">    {</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">        <span class="cf">while</span> (frnt&lt;back &amp;&amp; seperator&lt;arr[back])</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">        {</a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">            back--;</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">        }</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">        <span class="cf">if</span> (frnt&lt;back)</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">        {</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">            arr[frnt++] = arr[back];</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22">        }</a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24">        <span class="cf">while</span> (frnt&lt;back &amp;&amp; seperator&gt;=arr[frnt])</a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">        {</a>
+<a class="sourceLine" id="cb5-26" data-line-number="26">            frnt++;</a>
+<a class="sourceLine" id="cb5-27" data-line-number="27">        }</a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29">        <span class="cf">if</span> (frnt&lt;back)</a>
+<a class="sourceLine" id="cb5-30" data-line-number="30">        {</a>
+<a class="sourceLine" id="cb5-31" data-line-number="31">            arr[back--] = arr[frnt];</a>
+<a class="sourceLine" id="cb5-32" data-line-number="32">        }</a>
+<a class="sourceLine" id="cb5-33" data-line-number="33">    }</a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35">    arr[frnt] = seperator;</a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37">    partitionArray(arr, l, frnt<span class="dv">-1</span>);</a>
+<a class="sourceLine" id="cb5-38" data-line-number="38">    partitionArray(arr, frnt<span class="dv">+1</span>, r);</a>
+<a class="sourceLine" id="cb5-39" data-line-number="39">}</a>
+<a class="sourceLine" id="cb5-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="dt">void</span> QuickSort(<span class="dt">int</span> nums[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb5-42" data-line-number="42">{</a>
+<a class="sourceLine" id="cb5-43" data-line-number="43">    partitionArray(nums, <span class="dv">0</span>, size<span class="dv">-1</span>);</a>
+<a class="sourceLine" id="cb5-44" data-line-number="44">}</a></code></pre></div>
+<h1 id="大小堆与堆排序">
+<span class="header-section-number">5</span> 大小堆与堆排序</h1>
+<h2 id="二叉堆的特性">
+<span class="header-section-number">5.1</span> 二叉堆的特性</h2>
+<ul>
+<li>是完全二叉树或者近似完全二叉树</li>
+<li>父节点的键值总是 &gt;=(或者 &lt;=)子节点的键值</li>
+<li>每个节点的左右子树都是二叉堆</li>
+</ul>
+<p>当父节点键值总是&gt;=子节点键值时称为最大堆，当父节点键值总是&lt;=子节点键值时称为最小堆。<br>
+大小堆就是指最大堆和最小堆，下文主要讲述最大堆。</p>
+<h2 id="堆的存储">
+<span class="header-section-number">5.2</span> 堆的存储</h2>
+<p>由于大小堆是(近似)完全二叉树，因此可以用数组来表示。</p>
+<p><img src="../../../../assets/images/180208_max_heap_rep.png" style="width:100.0%"></p>
+<p>对于索引为idx的节点，其父节点索引为(idx-1)/2。<br>
+对于索引为idx的节点，其左节点索引为2*idx+1，其右节点索引为2*idx+2。</p>
+<h2 id="堆的元素插入">
+<span class="header-section-number">5.3</span> 堆的元素插入</h2>
+<p>插入元素到堆都是将其放在数组最后，可以发现从新元素的父结点到根节点是有序序列，只要将其插入到这个有序序列即可。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="dt">void</span> MaxHeapFixUp(vector&lt;<span class="dt">int</span>&gt;&amp; arr, <span class="dt">int</span> idx)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    <span class="dt">int</span> p = (idx<span class="dv">-1</span>)/<span class="dv">2</span>; <span class="co">// 父节点索引</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="cf">while</span> (<span class="dv">0</span>&lt;=p)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">    {</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">        <span class="cf">if</span> (arr[p] &gt;= arr[idx])</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">        {</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">            <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">        }</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">        swap(arr[p], arr[idx]);</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">        idx = p;</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">        p = (idx<span class="dv">-1</span>)/<span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">    }</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="dt">void</span> MaxHeapPush(vector&lt;<span class="dt">int</span>&gt;&amp; arr, <span class="dt">int</span> elem)</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20">{</a>
+<a class="sourceLine" id="cb6-21" data-line-number="21">    arr.push_back(elem);</a>
+<a class="sourceLine" id="cb6-22" data-line-number="22">    MaxHeapFixUp(arr, arr.size()<span class="dv">-1</span>);</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23">}</a></code></pre></div>
+<h2 id="堆的元素删除">
+<span class="header-section-number">5.4</span> 堆的元素删除</h2>
+<p>堆只能删除堆顶元素，实际操作是把最后的元素与其交换，然后从堆顶向下调整、恢复堆。<br>
+向下调整的过程，主要是确保父节点&gt;=子节点(最大堆)，如果不满足则跟子节点较大的进行交换。<br>
+上述过程在发生交换的情况下需要递归向下进行。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="dt">void</span> MaxHeapFixDownEx(vector&lt;<span class="dt">int</span>&gt;&amp; arr, <span class="dt">int</span> pretendSize, <span class="dt">int</span> idx)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="dt">int</span> size = pretendSize; <span class="co">// pretendSize &lt;= arr.size()</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    <span class="cf">while</span> (idx &lt; size)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">    {</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">        <span class="dt">int</span> l = <span class="dv">2</span>*idx + <span class="dv">1</span>; <span class="co">// 左节点索引</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">        <span class="dt">int</span> r = l<span class="dv">+1</span>;       <span class="co">// 右节点索引</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">        <span class="co">// 1) no children nodes</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">        <span class="co">// 2) has left child and no right child and arr[l] &lt;= arr[idx]</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">        <span class="co">// 3) two children and arr[l] &lt;= arr[idx] &amp;&amp; arr[r] &lt;= arr[idx]</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">        <span class="cf">if</span> ((l&gt;=size || arr[l] &lt;= arr[idx])</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">            &amp;&amp;  (r&gt;=size || arr[r] &lt;= arr[idx]))</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">        {</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">            <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">        }</a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">        <span class="co">// at least left child exists</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">        <span class="dt">int</span> m = l;</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">        <span class="cf">if</span> (r&lt;size &amp;&amp; arr[r] &gt; arr[l])</a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">        {</a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">            m = r;</a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">        }</a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">        swap(arr[idx], arr[m]);</a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">        idx = m;</a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">    }</a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">}</a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="dt">void</span> MaxHeapFixDown(vector&lt;<span class="dt">int</span>&gt;&amp; arr, <span class="dt">int</span> idx)</a>
+<a class="sourceLine" id="cb7-32" data-line-number="32">{</a>
+<a class="sourceLine" id="cb7-33" data-line-number="33">    <span class="cf">return</span> MaxHeapFixDownEx(arr, arr.size(), idx);</a>
+<a class="sourceLine" id="cb7-34" data-line-number="34">}</a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="dt">void</span> MaxHeapPop(vector&lt;<span class="dt">int</span>&gt;&amp; arr)</a>
+<a class="sourceLine" id="cb7-37" data-line-number="37">{</a>
+<a class="sourceLine" id="cb7-38" data-line-number="38">    swap(arr.front(), arr.back());</a>
+<a class="sourceLine" id="cb7-39" data-line-number="39">    arr.pop_back();</a>
+<a class="sourceLine" id="cb7-40" data-line-number="40">    MaxHeapFixDown(arr, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb7-41" data-line-number="41">}</a></code></pre></div>
+<h2 id="堆的建立">
+<span class="header-section-number">5.5</span> 堆的建立</h2>
+<p>我们知道叶子节点是二叉堆，所以堆的建立只要从最后的非叶子节点开始往前调整堆即可。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="dt">void</span> MaxHeapMake(vector&lt;<span class="dt">int</span>&gt;&amp; arr)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="dt">int</span> idx = arr.size()/<span class="dv">2</span> - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">    <span class="cf">while</span> (<span class="dv">0</span>&lt;=idx)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">    {</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">        MaxHeapFixDown(arr, idx--);</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">    }</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">}</a></code></pre></div>
+<h2 id="堆排序">
+<span class="header-section-number">5.6</span> 堆排序</h2>
+<p>最大堆建立好之后，堆顶(数组第一个元素)就是堆中最大的元素。<br>
+这样的话，只要不断重复获取、移除堆顶直到堆变空为止，我们就得到了排序好的序列。<br>
+实际上我们并不需要移除堆顶，只需要与最后的元素交换，然后假装堆中元素减一执行恢复堆操作即可。<br>
+这样的话，可以减少额外空间的使用、节省拷贝排序后数据的操作。</p>
+<p>实现从小到大排列的堆排序代码如下：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="dt">void</span> HeapSort(vector&lt;<span class="dt">int</span>&gt;&amp; arr)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    <span class="dt">int</span> idx = arr.size()<span class="dv">-1</span>;</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">    MaxHeapMake(arr);</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">    <span class="cf">while</span> (<span class="dv">0</span>&lt;idx)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">    {</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">        swap(arr.front(), arr[idx]);</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">        MaxHeapFixDownEx(arr, idx, <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">        idx--;</a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">    }</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">}</a></code></pre></div>
+<h1 id="插入排序">
+<span class="header-section-number">6</span> 插入排序</h1>
+<p>插入排序的基本思路是：</p>
+<ul>
+<li>单个元素的序列是有序序列</li>
+<li>依次将后续元素插入到前面的有序序列</li>
+</ul>
+<p>怎么将元素插入到前面的有序序列？<br>
+一种方法是通过交换，前面的元素较大则交换，一直往前交换到不大于的元素为止。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="dt">void</span> InsertSortV1(<span class="dt">int</span> arr[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">1</span>; idx&lt;size; idx++)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    {</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">        <span class="cf">for</span> (<span class="dt">int</span> pos=idx; <span class="dv">0</span>&lt;pos; pos--)</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">        {</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">            <span class="cf">if</span> (arr[pos<span class="dv">-1</span>] &lt;= arr[pos])</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">            {</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">                <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">            }</a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">            swap(arr[pos<span class="dv">-1</span>], arr[pos]);</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">        }</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">    }</a>
+<a class="sourceLine" id="cb10-15" data-line-number="15">}</a></code></pre></div>
+<p>另外一种方法就是通过后移腾出空位，效率更高，不过编码容易出错。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="dt">void</span> InsertSortV2(<span class="dt">int</span> arr[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">1</span>; idx&lt;size; idx++)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">    {</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">        <span class="dt">int</span> backup = arr[idx];</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">        <span class="dt">int</span> pos = idx;</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">        <span class="cf">while</span> (<span class="dv">0</span>&lt;pos)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">        {</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">            <span class="cf">if</span> (arr[pos<span class="dv">-1</span>] &lt;= backup)</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">            {</a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">                <span class="cf">break</span>;</a>
+<a class="sourceLine" id="cb11-13" data-line-number="13">            }</a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb11-15" data-line-number="15">            <span class="co">// 一边后移腾出空位，一边搜索合适位置</span></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16">            arr[pos] = arr[pos<span class="dv">-1</span>];</a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb11-18" data-line-number="18">            pos--;</a>
+<a class="sourceLine" id="cb11-19" data-line-number="19">        }</a>
+<a class="sourceLine" id="cb11-20" data-line-number="20">        <span class="co">// 1) pos==0，前面没有元素可比较，直接插入</span></a>
+<a class="sourceLine" id="cb11-21" data-line-number="21">        <span class="co">// 2) pos&gt;0 &amp;&amp; arr[pos-1] &lt;= backup</span></a>
+<a class="sourceLine" id="cb11-22" data-line-number="22">        arr[pos] = backup;</a>
+<a class="sourceLine" id="cb11-23" data-line-number="23">    }</a>
+<a class="sourceLine" id="cb11-24" data-line-number="24">}</a></code></pre></div>
+<h1 id="选择排序">
+<span class="header-section-number">7</span> 选择排序</h1>
+<p>选择排序的思路是：</p>
+<ol>
+<li>初始时，序列为无序区间[0, size)，idx==0</li>
+<li>在无序区间[idx, size)中选取最小的元素，将其与arr[idx]交换形成有序区间[0, idx]</li>
+<li>重复第2步直到无序区间为空</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="dt">void</span> SelectSort(<span class="dt">int</span> arr[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">0</span>; idx&lt;size; idx++)</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">    {</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">        <span class="dt">int</span> min = idx;</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">        <span class="cf">for</span> (<span class="dt">int</span> pos=idx<span class="dv">+1</span>; pos&lt;size; pos++)</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">        {</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">            <span class="cf">if</span> (arr[min] &gt; arr[pos])</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">            {</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">                min = pos;</a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">            }</a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">        }</a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">        swap(arr[idx], arr[min]);</a>
+<a class="sourceLine" id="cb12-16" data-line-number="16">    }</a>
+<a class="sourceLine" id="cb12-17" data-line-number="17">}</a></code></pre></div>
+<h1 id="希尔shell排序">
+<span class="header-section-number">8</span> 希尔(Shell)排序</h1>
+<p>希尔排序是分组+插入排序。</p>
+<p>版本一：</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="dt">void</span> ShellSortV1(<span class="dt">int</span> arr[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">    <span class="cf">for</span> (<span class="dt">int</span> gap=size/<span class="dv">2</span>; <span class="dv">0</span>&lt;gap; gap/=<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">    {</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">        <span class="cf">for</span> (<span class="dt">int</span> group=<span class="dv">0</span>; group&lt;gap; group++)</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">        {</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">            <span class="cf">for</span> (<span class="dt">int</span> idx=group+gap; idx&lt;size; idx+=gap)</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">            {</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">                <span class="cf">for</span> (<span class="dt">int</span> pos=idx; <span class="dv">0</span>&lt;pos &amp;&amp; arr[pos-gap]&gt;arr[pos]; pos-=gap)</a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">                {</a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">                    swap(arr[pos-gap], arr[pos]);</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">                }</a>
+<a class="sourceLine" id="cb13-13" data-line-number="13">            }</a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">        }</a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">    }</a>
+<a class="sourceLine" id="cb13-16" data-line-number="16">}</a></code></pre></div>
+<p>从gap开始，每个元素与自己分组内的元素进行插入排序。<br>
+版本二：</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="dt">void</span> ShellSortV2(<span class="dt">int</span> arr[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="cf">for</span> (<span class="dt">int</span> gap=size/<span class="dv">2</span>; <span class="dv">0</span>&lt;gap; gap/=<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">    {</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">        <span class="cf">for</span> (<span class="dt">int</span> idx=gap; idx&lt;size; idx++)</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">        {</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">            <span class="cf">for</span> (<span class="dt">int</span> pos=idx; <span class="dv">0</span>&lt;pos &amp;&amp; arr[pos-gap]&gt;arr[pos]; pos-=gap)</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">            {</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">                swap(arr[pos-gap], arr[pos]);</a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">            }</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">        }</a>
+<a class="sourceLine" id="cb14-12" data-line-number="12">    }</a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">}</a></code></pre></div>
+<h1 id="基数排序radixsortbucketsort">
+<span class="header-section-number">9</span> 基数排序/RadixSort/BucketSort</h1>
+<p>基数排序(LSD最低位优先)是依次按位数(个,十,百,千,万…)将元素放入0~9号通中排成新序列，最终完成排序。<br>
+首先我们按照正常思维实现：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="dt">int</span> maxDigits(vector&lt;<span class="dt">int</span>&gt; &amp;nums)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">    <span class="dt">int</span> d = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">    <span class="dt">int</span> r = <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">    <span class="kw">auto</span> maxItr = max_element(nums.begin(), nums.end());</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">    <span class="cf">if</span> (maxItr != nums.end())</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">    {</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">        <span class="kw">auto</span> maxNum = *maxItr;</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11">        <span class="cf">while</span> (maxNum &gt;=r)</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12">        {</a>
+<a class="sourceLine" id="cb15-13" data-line-number="13">            maxNum /= r;</a>
+<a class="sourceLine" id="cb15-14" data-line-number="14">            d++;</a>
+<a class="sourceLine" id="cb15-15" data-line-number="15">        }</a>
+<a class="sourceLine" id="cb15-16" data-line-number="16">    }</a>
+<a class="sourceLine" id="cb15-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb15-18" data-line-number="18">    <span class="cf">return</span> d;</a>
+<a class="sourceLine" id="cb15-19" data-line-number="19">}</a>
+<a class="sourceLine" id="cb15-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb15-21" data-line-number="21"><span class="dt">void</span> RadixSort(vector&lt;<span class="dt">int</span>&gt; &amp;nums)</a>
+<a class="sourceLine" id="cb15-22" data-line-number="22">{</a>
+<a class="sourceLine" id="cb15-23" data-line-number="23">    <span class="dt">int</span> digits = maxDigits(nums);</a>
+<a class="sourceLine" id="cb15-24" data-line-number="24">    <span class="dt">int</span> radix = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb15-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb15-26" data-line-number="26">    <span class="cf">while</span> (digits--)</a>
+<a class="sourceLine" id="cb15-27" data-line-number="27">    {</a>
+<a class="sourceLine" id="cb15-28" data-line-number="28">        vector&lt;vector&lt;<span class="dt">int</span>&gt;&gt; buckets(<span class="dv">10</span>);</a>
+<a class="sourceLine" id="cb15-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb15-30" data-line-number="30">        <span class="cf">for</span> (<span class="kw">auto</span> n: nums)</a>
+<a class="sourceLine" id="cb15-31" data-line-number="31">        {</a>
+<a class="sourceLine" id="cb15-32" data-line-number="32">            <span class="dt">int</span> digit = (n/radix) % <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb15-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb15-34" data-line-number="34">            buckets[digit].push_back(n);</a>
+<a class="sourceLine" id="cb15-35" data-line-number="35">        }</a>
+<a class="sourceLine" id="cb15-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb15-37" data-line-number="37">        <span class="dt">int</span> idx = <span class="dv">0</span>;</a>
+<a class="sourceLine" id="cb15-38" data-line-number="38">        <span class="cf">for</span> (<span class="kw">auto</span> &amp;v: buckets)</a>
+<a class="sourceLine" id="cb15-39" data-line-number="39">        {</a>
+<a class="sourceLine" id="cb15-40" data-line-number="40">            <span class="cf">for</span> (<span class="kw">auto</span> n: v)</a>
+<a class="sourceLine" id="cb15-41" data-line-number="41">            {</a>
+<a class="sourceLine" id="cb15-42" data-line-number="42">                nums[idx++] = n;</a>
+<a class="sourceLine" id="cb15-43" data-line-number="43">            }</a>
+<a class="sourceLine" id="cb15-44" data-line-number="44">        }</a>
+<a class="sourceLine" id="cb15-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb15-46" data-line-number="46">        radix *= <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb15-47" data-line-number="47">    }</a>
+<a class="sourceLine" id="cb15-48" data-line-number="48">}</a></code></pre></div>
+<p>通过 <code>partial_sum</code> 我们可以在静态数组上实现，而不用动态数组。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="dt">int</span> maxDigits(<span class="dt">int</span> arr[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">    <span class="dt">int</span> d = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">    <span class="dt">int</span> r = <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">    <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">0</span>; idx&lt;size; idx++)</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">    {</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8">        <span class="cf">if</span> (arr[idx] &gt;= r)</a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">        {</a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">            d++;</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">            r *= <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">        }</a>
+<a class="sourceLine" id="cb16-13" data-line-number="13">    }</a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15">    <span class="cf">return</span> d;</a>
+<a class="sourceLine" id="cb16-16" data-line-number="16">}</a>
+<a class="sourceLine" id="cb16-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="dt">void</span> RadixSort(<span class="dt">int</span> arr[], <span class="dt">int</span> size)</a>
+<a class="sourceLine" id="cb16-19" data-line-number="19">{</a>
+<a class="sourceLine" id="cb16-20" data-line-number="20">    <span class="dt">int</span> digits = maxDigits(arr, size);</a>
+<a class="sourceLine" id="cb16-21" data-line-number="21">    unique_ptr&lt;<span class="dt">int</span>[]&gt; tmp(<span class="kw">new</span> <span class="dt">int</span>[size]);</a>
+<a class="sourceLine" id="cb16-22" data-line-number="22">    <span class="dt">int</span> radix = <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb16-23" data-line-number="23"><span class="pp">#define DIGITS_CNT (10)</span></a>
+<a class="sourceLine" id="cb16-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb16-25" data-line-number="25">    <span class="cf">for</span> (<span class="dt">int</span> idx=<span class="dv">0</span>; idx&lt;digits; idx++)</a>
+<a class="sourceLine" id="cb16-26" data-line-number="26">    {</a>
+<a class="sourceLine" id="cb16-27" data-line-number="27">        <span class="dt">int</span> cnt[DIGITS_CNT] = {};</a>
+<a class="sourceLine" id="cb16-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb16-29" data-line-number="29">        <span class="cf">for</span> (<span class="dt">int</span> pos=<span class="dv">0</span>; pos&lt;size; pos++)</a>
+<a class="sourceLine" id="cb16-30" data-line-number="30">        {</a>
+<a class="sourceLine" id="cb16-31" data-line-number="31">            <span class="dt">int</span> digit = (arr[pos]/radix) % <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb16-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb16-33" data-line-number="33">            cnt[digit]++;</a>
+<a class="sourceLine" id="cb16-34" data-line-number="34">        }</a>
+<a class="sourceLine" id="cb16-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb16-36" data-line-number="36">        <span class="cf">for</span> (<span class="dt">int</span> pos=<span class="dv">1</span>; pos&lt;DIGITS_CNT; pos++)</a>
+<a class="sourceLine" id="cb16-37" data-line-number="37">        {</a>
+<a class="sourceLine" id="cb16-38" data-line-number="38">            cnt[pos] += cnt[pos<span class="dv">-1</span>];</a>
+<a class="sourceLine" id="cb16-39" data-line-number="39">        }</a>
+<a class="sourceLine" id="cb16-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb16-41" data-line-number="41">        <span class="co">// start from the end</span></a>
+<a class="sourceLine" id="cb16-42" data-line-number="42">        <span class="cf">for</span> (<span class="dt">int</span> pos=size<span class="dv">-1</span>; <span class="dv">0</span>&lt;=pos; pos--)</a>
+<a class="sourceLine" id="cb16-43" data-line-number="43">        {</a>
+<a class="sourceLine" id="cb16-44" data-line-number="44">            <span class="dt">int</span> digit = (arr[pos]/radix) % <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb16-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb16-46" data-line-number="46">            tmp[cnt[digit]<span class="dv">-1</span>] = arr[pos];</a>
+<a class="sourceLine" id="cb16-47" data-line-number="47">            cnt[digit]--;</a>
+<a class="sourceLine" id="cb16-48" data-line-number="48">        }</a>
+<a class="sourceLine" id="cb16-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb16-50" data-line-number="50">        <span class="cf">for</span> (<span class="dt">int</span> pos=<span class="dv">0</span>; pos&lt;size; pos++)</a>
+<a class="sourceLine" id="cb16-51" data-line-number="51">        {</a>
+<a class="sourceLine" id="cb16-52" data-line-number="52">            arr[pos] = tmp[pos];</a>
+<a class="sourceLine" id="cb16-53" data-line-number="53">        }</a>
+<a class="sourceLine" id="cb16-54" data-line-number="54"></a>
+<a class="sourceLine" id="cb16-55" data-line-number="55">        radix *= <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb16-56" data-line-number="56">    }</a>
+<a class="sourceLine" id="cb16-57" data-line-number="57">}</a></code></pre></div>
+
+
+        </article>
+        
+        <div class="ui horizontal grey divider header">Modified at: February 8, 2018</div>
+        
+        <div class="ui hidden divider"></div>
+        <a href="../../../../about#reward">
+          <img class="ui centered image" src="../../../../assets/images/reward.png">
+        </a>
+    </div>
+    <div class="ui secondary segment">
+        <div class="ui list">
+            
+            <a class="item" href="../../01/%E5%85%A8%E6%8E%92%E5%88%97%E7%AE%97%E6%B3%95/">
+                <div class="ui url blue label">« Prev</div>全排列算法
+            </a>
+            
+            
+            <a class="item" href="../../03/cpp%E5%9F%BA%E7%A1%80/">
+                <div class="ui url blue label">» Next</div>C++基础
+            </a>
+            
+        </div>
+    </div>
+    <div class="ui blue segment">
+		
+        <script>
+         var idcomments_acct = 'c5bb6e189e91abf8985279b97aa3ab46';
+         var idcomments_post_id;
+         var idcomments_post_url;
+        </script>
+        <span id="IDCommentsPostTitle" style="display:none"></span>
+        <script type="text/javascript" src="https://www.intensedebate.com/js/genericCommentWrapperV2.js" defer></script>
+		
+    </div>
+    <div class="sidebar-toggle" style="display: none">
+		<div class="sidebar-toggle-line-wrap">
+			<span class="sidebar-toggle-line sidebar-toggle-line-first" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-middle" style="opacity: 1; width: 100%; left: 0px; top: 0px; transform: rotateZ(0deg);"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-last" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+		</div>
+    </div>
+    <div class="back-to-top"></div>
+</div>
+<script type="text/javascript">
+ function genTocAtLevel(sp, dp, lvl) {
+     c = sp.find('>ul>li');
+     if (0 != c.length) {
+         c.each(function(i,n){
+             nn = $(n);
+             itStr = '<div class="item"></div>';
+             dp.append(itStr);
+
+             it = dp.find('>.item:last');
+             a = nn.find('>a');
+             if (0 != a.length) {
+                 //console.log('level: '+lvl+' item: '+a.text());
+                 // clear id in case of internal links
+                 a.children().attr('id', '');
+
+                 it.append(a.first().clone());
+             }
+             if (0 != nn.find('>ul>li').length){
+                 mnStr = '<div class="menu"></div>';
+                 it.append(mnStr);
+                 mn = it.find('>.menu');
+                 genTocAtLevel(nn, mn, lvl+1);
+             }
+         });
+     }
+ }
+</script>
+
+                </div>
+				        <div id="page-loader" class="ui centered inline loader"></div>
+            </div>
+            <div class="ui hidden divider placeholder"></div>
+
+            <footer class="ui inverted vertical center aligned segment">
+                <div class="ui container">
+                    <script type="text/javascript">
+                    document.write("<p>Copyright © 2011-xxxx by 时聆心语&nbsp;&nbsp;·&nbsp;&nbsp;Powered by Nanoc, Pandoc, Semantic UI, Travis CI, GitHub Pages, etc.</p>".replace('xxxx', new Date().getFullYear()));
+                    </script>
+                </div>
+            </footer>   
+
+        </div>
+
+  
+
+        <!-- JS Includes -->
+        <script src="../../../../assets/jquery.min.js"></script>
+        <script src="../../../../assets/semantic.min.js"></script>
+        <script src="../../../../assets/iframeResizer.contentWindow.min.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript" defer></script>
+    </body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    	   $('.page.header').visibility({
+             type: 'fixed'
+         });
+
+     $('.back-to-top').on('click', function () {
+        $('html,body').animate({scrollTop: 0}, 100);
+     });
+
+     $('span.header-section-number ~ span[data-tag-name]').each(function(i,n){
+         nn = $(n);
+         nn.text(nn.attr('data-tag-name'));
+     });
+
+         if (0 != $('#_home_page_').length) {
+             hp = $('#_home_page_');
+             hp.data('cur_page', 1);
+
+		         $('.page.content > .container').visibility({
+			           once: false,
+			           // update size when new content loads
+			           observeChanges: true,
+			           // load content on bottom edge visible
+			           onBottomVisible: function() {
+				             $('#page-loader').addClass('visible');
+					           getPaginatedArticles(hp.data('cur_page')+1);
+		             }
+			       });
+         }
+
+         if (0 != $('#_SRC_TOC_').length){
+             $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+
+             sp = $('#_SRC_TOC_');
+             dp = $('#_dst_toc_');
+             genTocAtLevel(sp, dp, 1);
+
+            $('.sidebar-toggle').show().on('click', function () {
+                $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+            });
+         }
+		     $(window).bind('hashchange', function() {
+			       if (location.hash) {
+				         var target = $(decodeURI(location.hash));
+				         if(target.length==1) {
+			    	         var top = target.offset().top-$('.page.header').height();
+					           if(top > 0)
+					               {
+					                   $('html,body').animate({scrollTop:top}, 100);
+					               }
+				         }
+				         //location.hash = '';
+				         history.replaceState("", document.title, window.location.pathname + window.location.search);
+			       }
+		     });
+     });
+    </script>
+</html>

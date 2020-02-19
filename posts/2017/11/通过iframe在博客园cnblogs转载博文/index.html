@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- Standard Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <!-- Site Properities -->
+        <title>时聆心语 - 通过iframe在博客园cnblogs转载博文</title>
+
+        <link rel="stylesheet" type="text/css" href="../../../../assets/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../assets/site.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/ch-pygments.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/readtheorg_smpl.css">
+    </head>
+
+    <body id="gh-site" class="pushable">
+        <div class="ui vertical inverted sidebar menu right" id="_dst_toc_">
+        </div>
+        <div class="pusher">
+            <!-- Global Header -->
+            <div class="page header">
+                <div class="ui main container">
+                    <div class="ui borderless menu">
+                        <a href="../../../../" class="item"><img src="../../../../favicon.ico"></a>
+                        <a href="../../../../archives" class="item">Archives</a>
+                        <a href="../../../../tags" class="item">Tags</a>
+                        <a href="../../../../about" class="item">About</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="page content" data-iframe-height>
+                <div class="ui main container">
+                    
+<div class="ui piled segments">
+    <div class="ui segment">
+        <div class="ui tiny header">
+            <h1>通过iframe在博客园cnblogs转载博文</h1>
+        </div>
+    </div>
+    <div class="ui blue segment">
+        <div class="ui basic grey label">Posted at:<div class="detail">November 16, 2017</div>
+</div>
+        <div class="tags">
+<div class="ui teal tag label">Tags:</div>
+<a class="ui basic label" href="../../../../tags/iframe">Iframe</a><a class="ui basic label" href="../../../../tags/blog">Blog</a><a class="ui basic label" href="../../../../tags/cnblogs">Cnblogs</a>
+</div>
+        <div class="ui hidden divider"></div>
+        <article>
+            <nav id="_SRC_TOC_" style="display:none">
+<ul>
+<li><a href="#%E7%AE%80%E4%BB%8B"><span class="toc-section-number">1</span> 简介</a></li>
+<li><a href="#%E8%83%8C%E6%99%AF"><span class="toc-section-number">2</span> 背景</a></li>
+<li><a href="#%E5%8E%9F%E7%90%86"><span class="toc-section-number">3</span> 原理</a></li>
+<li>
+<a href="#%E6%AD%A5%E9%AA%A4"><span class="toc-section-number">4</span> 步骤</a><ul>
+<li><a href="#%E7%94%B3%E8%AF%B7%E5%BC%80%E9%80%9Ajs%E6%9D%83%E9%99%90"><span class="toc-section-number">4.1</span> 申请开通js权限</a></li>
+<li><a href="#%E6%8B%BC%E6%8E%A5%E5%87%BAiframe%E5%85%83%E7%B4%A0%E5%B9%B6%E6%8F%92%E5%85%A5"><span class="toc-section-number">4.2</span> 拼接出iframe元素并插入</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+<h1 id="简介">
+<span class="header-section-number">1</span> 简介</h1>
+<p>本文主要介绍如何通过iframe在 <a href="https://www.cnblogs.com/">博客园</a> 转载博文。</p>
+<p><strong>需要注意的是，该方法如果广泛使用可能会被博客园封堵，请低调地使用。</strong></p>
+<h1 id="背景">
+<span class="header-section-number">2</span> 背景</h1>
+<p>由于博客园目前只能通过手动复制粘贴的方式转载博文，因此我们希望有一个更方便的方法。<br>
+一个比较自然的想法就是通过iframe嵌入到自己的博文。<br>
+处于草稿状态的博文确实可以这么做，但是当你发布的时候就会发现iframe不见了。<br>
+由此可以猜测博客园后台应该是会自动删除博文中的的iframe元素。</p>
+<h1 id="原理">
+<span class="header-section-number">3</span> 原理</h1>
+<p>我们怎么绕过博客园删除iframe元素的机制？<br>
+通过js插入iframe元素是否可以？<br>
+通过测试，正常情况下并不能通过js插入iframe元素，因为含有iframe的代码被删掉了。<br>
+接下来通过测试可以发现，含有'&lt;iframe'和'iframe&gt;'的部分会被删除。<br>
+拼接出来的iframe元素是否可以插入？ 幸运的是，回答是肯定的。<br>
+于是我们找到了解决方法，通过js以拼接出iframe元素的方式插入iframe。</p>
+<h1 id="步骤">
+<span class="header-section-number">4</span> 步骤</h1>
+<h2 id="申请开通js权限">
+<span class="header-section-number">4.1</span> 申请开通js权限</h2>
+<p>默认情况下博文页面并不能执行js，需要在 <code>设置</code> 里面申请开通js权限。</p>
+<h2 id="拼接出iframe元素并插入">
+<span class="header-section-number">4.2</span> 拼接出iframe元素并插入</h2>
+<p>可以 <code>'&lt;' + 'iframe'</code> ，也可以 <code>'&lt;i' + 'frame'</code> ，甚至可以通过编码、解码得到完整的'&lt;iframe'。<br>
+至于iframe的src属性可以在博文中某个元素里面设定，比如说&lt;div id="…" src="…"&gt; ，然后通过js提取。<br>
+代码比较简单，这里就不提供源代码了。</p>
+<p><img src="../../../../assets/images/171116_js_insert_ifrm.png"> <img src="../../../../assets/images/171116_blog_demo.png"></p>
+
+
+        </article>
+        
+        <div class="ui horizontal grey divider header">Modified at: November 16, 2017</div>
+        
+        <div class="ui hidden divider"></div>
+        <a href="../../../../about#reward">
+          <img class="ui centered image" src="../../../../assets/images/reward.png">
+        </a>
+    </div>
+    <div class="ui secondary segment">
+        <div class="ui list">
+            
+            <a class="item" href="../../10/mysql%E5%9F%BA%E7%A1%80/">
+                <div class="ui url blue label">« Prev</div>MySQL基础
+            </a>
+            
+            
+            <a class="item" href="../../../2018/01/%E5%85%A8%E6%8E%92%E5%88%97%E7%AE%97%E6%B3%95/">
+                <div class="ui url blue label">» Next</div>全排列算法
+            </a>
+            
+        </div>
+    </div>
+    <div class="ui blue segment">
+		
+        <script>
+         var idcomments_acct = 'c5bb6e189e91abf8985279b97aa3ab46';
+         var idcomments_post_id;
+         var idcomments_post_url;
+        </script>
+        <span id="IDCommentsPostTitle" style="display:none"></span>
+        <script type="text/javascript" src="https://www.intensedebate.com/js/genericCommentWrapperV2.js" defer></script>
+		
+    </div>
+    <div class="sidebar-toggle" style="display: none">
+		<div class="sidebar-toggle-line-wrap">
+			<span class="sidebar-toggle-line sidebar-toggle-line-first" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-middle" style="opacity: 1; width: 100%; left: 0px; top: 0px; transform: rotateZ(0deg);"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-last" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+		</div>
+    </div>
+    <div class="back-to-top"></div>
+</div>
+<script type="text/javascript">
+ function genTocAtLevel(sp, dp, lvl) {
+     c = sp.find('>ul>li');
+     if (0 != c.length) {
+         c.each(function(i,n){
+             nn = $(n);
+             itStr = '<div class="item"></div>';
+             dp.append(itStr);
+
+             it = dp.find('>.item:last');
+             a = nn.find('>a');
+             if (0 != a.length) {
+                 //console.log('level: '+lvl+' item: '+a.text());
+                 // clear id in case of internal links
+                 a.children().attr('id', '');
+
+                 it.append(a.first().clone());
+             }
+             if (0 != nn.find('>ul>li').length){
+                 mnStr = '<div class="menu"></div>';
+                 it.append(mnStr);
+                 mn = it.find('>.menu');
+                 genTocAtLevel(nn, mn, lvl+1);
+             }
+         });
+     }
+ }
+</script>
+
+                </div>
+				        <div id="page-loader" class="ui centered inline loader"></div>
+            </div>
+            <div class="ui hidden divider placeholder"></div>
+
+            <footer class="ui inverted vertical center aligned segment">
+                <div class="ui container">
+                    <script type="text/javascript">
+                    document.write("<p>Copyright © 2011-xxxx by 时聆心语&nbsp;&nbsp;·&nbsp;&nbsp;Powered by Nanoc, Pandoc, Semantic UI, Travis CI, GitHub Pages, etc.</p>".replace('xxxx', new Date().getFullYear()));
+                    </script>
+                </div>
+            </footer>   
+
+        </div>
+
+  
+
+        <!-- JS Includes -->
+        <script src="../../../../assets/jquery.min.js"></script>
+        <script src="../../../../assets/semantic.min.js"></script>
+        <script src="../../../../assets/iframeResizer.contentWindow.min.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript" defer></script>
+    </body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    	   $('.page.header').visibility({
+             type: 'fixed'
+         });
+
+     $('.back-to-top').on('click', function () {
+        $('html,body').animate({scrollTop: 0}, 100);
+     });
+
+     $('span.header-section-number ~ span[data-tag-name]').each(function(i,n){
+         nn = $(n);
+         nn.text(nn.attr('data-tag-name'));
+     });
+
+         if (0 != $('#_home_page_').length) {
+             hp = $('#_home_page_');
+             hp.data('cur_page', 1);
+
+		         $('.page.content > .container').visibility({
+			           once: false,
+			           // update size when new content loads
+			           observeChanges: true,
+			           // load content on bottom edge visible
+			           onBottomVisible: function() {
+				             $('#page-loader').addClass('visible');
+					           getPaginatedArticles(hp.data('cur_page')+1);
+		             }
+			       });
+         }
+
+         if (0 != $('#_SRC_TOC_').length){
+             $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+
+             sp = $('#_SRC_TOC_');
+             dp = $('#_dst_toc_');
+             genTocAtLevel(sp, dp, 1);
+
+            $('.sidebar-toggle').show().on('click', function () {
+                $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+            });
+         }
+		     $(window).bind('hashchange', function() {
+			       if (location.hash) {
+				         var target = $(decodeURI(location.hash));
+				         if(target.length==1) {
+			    	         var top = target.offset().top-$('.page.header').height();
+					           if(top > 0)
+					               {
+					                   $('html,body').animate({scrollTop:top}, 100);
+					               }
+				         }
+				         //location.hash = '';
+				         history.replaceState("", document.title, window.location.pathname + window.location.search);
+			       }
+		     });
+     });
+    </script>
+</html>

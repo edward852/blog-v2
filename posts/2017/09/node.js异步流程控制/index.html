@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- Standard Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+        <!-- Site Properities -->
+        <title>时聆心语 - Node.js异步流程控制</title>
+
+        <link rel="stylesheet" type="text/css" href="../../../../assets/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../../assets/site.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/ch-pygments.css">
+		    <link rel="stylesheet" type="text/css" href="../../../../assets/readtheorg_smpl.css">
+    </head>
+
+    <body id="gh-site" class="pushable">
+        <div class="ui vertical inverted sidebar menu right" id="_dst_toc_">
+        </div>
+        <div class="pusher">
+            <!-- Global Header -->
+            <div class="page header">
+                <div class="ui main container">
+                    <div class="ui borderless menu">
+                        <a href="../../../../" class="item"><img src="../../../../favicon.ico"></a>
+                        <a href="../../../../archives" class="item">Archives</a>
+                        <a href="../../../../tags" class="item">Tags</a>
+                        <a href="../../../../about" class="item">About</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="page content" data-iframe-height>
+                <div class="ui main container">
+                    
+<div class="ui piled segments">
+    <div class="ui segment">
+        <div class="ui tiny header">
+            <h1>Node.js异步流程控制</h1>
+        </div>
+    </div>
+    <div class="ui blue segment">
+        <div class="ui basic grey label">Posted at:<div class="detail">September 20, 2017</div>
+</div>
+        <div class="tags">
+<div class="ui teal tag label">Tags:</div>
+<a class="ui basic label" href="../../../../tags/node.js">Node.js</a><a class="ui basic label" href="../../../../tags/async">Async</a><a class="ui basic label" href="../../../../tags/non-blocking">Non-blocking</a>
+</div>
+        <div class="ui hidden divider"></div>
+        <article>
+            <nav id="_SRC_TOC_" style="display:none">
+<ul>
+<li><a href="#%E5%BC%95%E8%A8%80"><span class="toc-section-number">1</span> 引言</a></li>
+<li><a href="#callback"><span class="toc-section-number">2</span> Callback</a></li>
+<li><a href="#promise"><span class="toc-section-number">3</span> Promise</a></li>
+<li><a href="#generatoryield"><span class="toc-section-number">4</span> Generator/Yield</a></li>
+<li><a href="#asyncawait"><span class="toc-section-number">5</span> Async/Await</a></li>
+<li><a href="#%E5%B0%8F%E7%BB%93"><span class="toc-section-number">6</span> 小结</a></li>
+</ul>
+</nav>
+<h1 id="引言">
+<span class="header-section-number">1</span> 引言</h1>
+<p>Node.js使用事件驱动、非阻塞I/O模型，写出来的应用响应迅速、扩展性好。虽然异步调用在Node.js中是一把利器，但是需要我们合理的使用才能事半功倍。</p>
+<h1 id="callback">
+<span class="header-section-number">2</span> Callback</h1>
+<p>第一种比较常见的异步调用方式就是注册回调函数，比如说setTimeout：</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="at">setTimeout</span>(() <span class="op">=&gt;</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="va">console</span>.<span class="at">log</span>(<span class="st">'Hello!'</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="op">},</span> <span class="dv">1000</span>)<span class="op">;</span></a></code></pre></div>
+<p>其中注册的是 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">箭头函数</a> ，这个函数并不会马上执行，而是在大约1秒后执行。<br>
+像读写文件这些很可能阻塞的操作，<a href="https://nodejs.org/api/fs.html">fs模块</a> 就提供了很多接口，而这些接口可以注册回调函数，在操作有结果之后才通知你进行处理。<br>
+不难理解，正是由于不用忙等待操作结果(non-blocking)，程序才有更多的机会处理用户的请求以及其它事务，不会卡在界面一动不动。<br>
+当然回调函数并不是完美的，经常会嵌套太深，造成"callback hell"，比如下面的伪代码：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">function</span> <span class="at">handler</span>(request<span class="op">,</span> response) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="va">User</span>.<span class="at">get</span>(<span class="va">request</span>.<span class="at">user</span><span class="op">,</span> <span class="kw">function</span>(err<span class="op">,</span> user) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">        <span class="cf">if</span> (err) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">            <span class="va">response</span>.<span class="at">send</span>(err)<span class="op">;</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">            <span class="va">Contact</span>.<span class="at">get</span>(<span class="va">user</span>.<span class="at">contact</span><span class="op">,</span> <span class="kw">function</span>(err<span class="op">,</span> contact) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">                <span class="cf">if</span> (err) <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">                    <span class="cf">return</span> <span class="va">response</span>.<span class="at">send</span>(err)<span class="op">;</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">                <span class="op">}</span> <span class="cf">else</span>  <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">                    ...</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">                <span class="op">}</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">            <span class="op">}</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">        <span class="op">}</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">    <span class="op">}</span>)</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="op">}</span></a></code></pre></div>
+<p>可以看出来，回调函数嵌套太深会造成可读性变差、可维护性变弱等。</p>
+<h1 id="promise">
+<span class="header-section-number">3</span> Promise</h1>
+<p>为了解决前面提到的问题，一个比较简洁的方案提出来了，那就是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> 。<br>
+Promise代表了异步操作的最终结果，可能成功，也可能失败，但一定会通知你。<br>
+而你只要通过Promise的then方法就可以在成功的时候得到终值，失败的时候处理错误。<br>
+Promise的then方法返回的仍然是一个Promise对象，也就是说你可以继续调用then方法，达到链式调用的效果：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">function</span>(request<span class="op">,</span> response) <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="kw">var</span> user<span class="op">,</span> contact<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="va">User</span>.<span class="at">get</span>(<span class="va">request</span>.<span class="at">user</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">    .<span class="at">then</span>(<span class="kw">function</span>(aUser) <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">        user <span class="op">=</span> aUser<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">        <span class="cf">return</span> <span class="va">Contact</span>.<span class="at">get</span>(<span class="va">user</span>.<span class="at">contact</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="op">}</span>)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">    .<span class="at">then</span>(<span class="kw">function</span>(aContact) <span class="op">{</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">        contact <span class="op">=</span> aContact<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">        ...</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">    <span class="op">}</span>)</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">    .<span class="at">catch</span>(err <span class="op">=&gt;</span> <span class="va">response</span>.<span class="at">send</span>(err))<span class="op">;</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="op">}</span></a></code></pre></div>
+<p>可以看到，嵌套已经消失了，代码变得扁平化了。<br>
+另外还有一个好处就是通过Promise的catch方法，错误得到了集中的处理，不再东一块、西一块。<br>
+Promise提供了一个解决回调地狱的基础方法，但是对于稍微复杂的情况(循环、并发、集合等)，就有点有心无力，需要新的工具。</p>
+<h1 id="generatoryield">
+<span class="header-section-number">4</span> Generator/Yield</h1>
+<p>作为一个过渡方案，一些模块(比如说 <a href="https://github.com/tj/co">co)</a>通过 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator">Generator</a> 和 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield">yield</a> 使得多个异步调用可以像同步调用那样书写，比较自然、直观。<br>
+虽然Generator的本意并不是解决前面提到的问题，不过通过Promise和yield的配合，使得问题得到了巧妙的解决。<br>
+其中起到关键作用的是可以改变执行流程的yield，可以根据需要让渡执行权，然后在合适的时机以及可选的输入下继续执行。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="at">co</span>(<span class="kw">function</span> <span class="op">*</span>()<span class="op">{</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="co">// resolve multiple promises in parallel</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="kw">var</span> a <span class="op">=</span> <span class="va">Promise</span>.<span class="at">resolve</span>(<span class="dv">1</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw">var</span> b <span class="op">=</span> <span class="va">Promise</span>.<span class="at">resolve</span>(<span class="dv">2</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="kw">var</span> c <span class="op">=</span> <span class="va">Promise</span>.<span class="at">resolve</span>(<span class="dv">3</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="kw">var</span> res <span class="op">=</span> <span class="kw">yield</span> [a<span class="op">,</span> b<span class="op">,</span> c]<span class="op">;</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="va">console</span>.<span class="at">log</span>(res)<span class="op">;</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="co">// =&gt; [1, 2, 3]</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="op">}</span>).<span class="at">catch</span>(onerror)<span class="op">;</span></a></code></pre></div>
+<p>除了比较怪异的function*和yield的写法之外，这个解决方案已经基本让人满意了。<br>
+另外说一点题外话就是，Generator和yield在其他方面还有不少潜力可以挖，可能给人带来新的惊喜。</p>
+<h1 id="asyncawait">
+<span class="header-section-number">5</span> Async/Await</h1>
+<p>前面之所以称generator/yield为过渡方案，是因为标准的解决方案已经出来，也就是async/await方案，但是需要较新版本的Node.js才支持。<br>
+从某种意义来讲，async/await方案可以称为generator/yield的语法糖，使用形式上十分相似。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">function</span> <span class="at">handler</span>(req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="cf">return</span> <span class="at">co</span>(<span class="kw">function</span><span class="op">*</span>() <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="kw">yield</span> <span class="kw">new</span> <span class="at">Promise</span>((resolve<span class="op">,</span> reject) <span class="op">=&gt;</span> <span class="at">reject</span>(<span class="kw">new</span> <span class="at">Error</span>(<span class="st">'Hang!'</span>)))<span class="op">;</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="va">res</span>.<span class="at">send</span>(<span class="st">'Hello, World!'</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="op">}</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="op">}</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">async <span class="kw">function</span> <span class="at">handler</span>(req<span class="op">,</span> res) <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  await <span class="kw">new</span> <span class="at">Promise</span>((resolve<span class="op">,</span> reject) <span class="op">=&gt;</span> <span class="at">reject</span>(<span class="kw">new</span> <span class="at">Error</span>(<span class="st">'Hang!'</span>)))<span class="op">;</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="va">res</span>.<span class="at">send</span>(<span class="st">'Hello, World!'</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="op">}</span></a></code></pre></div>
+<p>async/await去除了怪异的function*和yield，使用了含义更明确的async和await，另外还有不少细节上的改进。<br>
+比如说以下几点：</p>
+<ul>
+<li>通过赋值获取终值，通过try/catch处理异常</li>
+<li>对于for循环、if条件能够跟同步调用一样使用，不用特别的处理</li>
+<li>更精确、可读性更强的栈回溯信息</li>
+</ul>
+<p>需要注意的是，await只能在async函数内使用，否则会产生语法错误。</p>
+<h1 id="小结">
+<span class="header-section-number">6</span> 小结</h1>
+<p>虽然说本文大部分内容都在讲异步调用，但是并不是说一定要异步调用，而是要根据业务逻辑来确定，同步调用与异步调用搭配使用，效果更佳。<br>
+另外就是还有不少其他比较优秀的模块能够很好的控制异步调用流程，比如说 <a href="https://github.com/caolan/async">Async</a> , <a href="https://github.com/petkaantonov/bluebird">Bluebird</a> 等模块，大家可以根据需要选用。</p>
+
+
+        </article>
+        
+        <div class="ui horizontal grey divider header">Modified at: September 20, 2017</div>
+        
+        <div class="ui hidden divider"></div>
+        <a href="../../../../about#reward">
+          <img class="ui centered image" src="../../../../assets/images/reward.png">
+        </a>
+    </div>
+    <div class="ui secondary segment">
+        <div class="ui list">
+            
+            <a class="item" href="../node.js%E8%B0%83%E8%AF%95/">
+                <div class="ui url blue label">« Prev</div>Node.js调试
+            </a>
+            
+            
+            <a class="item" href="../../10/mysql%E5%9F%BA%E7%A1%80/">
+                <div class="ui url blue label">» Next</div>MySQL基础
+            </a>
+            
+        </div>
+    </div>
+    <div class="ui blue segment">
+		
+        <script>
+         var idcomments_acct = 'c5bb6e189e91abf8985279b97aa3ab46';
+         var idcomments_post_id;
+         var idcomments_post_url;
+        </script>
+        <span id="IDCommentsPostTitle" style="display:none"></span>
+        <script type="text/javascript" src="https://www.intensedebate.com/js/genericCommentWrapperV2.js" defer></script>
+		
+    </div>
+    <div class="sidebar-toggle" style="display: none">
+		<div class="sidebar-toggle-line-wrap">
+			<span class="sidebar-toggle-line sidebar-toggle-line-first" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-middle" style="opacity: 1; width: 100%; left: 0px; top: 0px; transform: rotateZ(0deg);"></span>
+			<span class="sidebar-toggle-line sidebar-toggle-line-last" style="top: 0px; transform: rotateZ(0deg); width: 100%; opacity: 1; left: 0px;"></span>
+		</div>
+    </div>
+    <div class="back-to-top"></div>
+</div>
+<script type="text/javascript">
+ function genTocAtLevel(sp, dp, lvl) {
+     c = sp.find('>ul>li');
+     if (0 != c.length) {
+         c.each(function(i,n){
+             nn = $(n);
+             itStr = '<div class="item"></div>';
+             dp.append(itStr);
+
+             it = dp.find('>.item:last');
+             a = nn.find('>a');
+             if (0 != a.length) {
+                 //console.log('level: '+lvl+' item: '+a.text());
+                 // clear id in case of internal links
+                 a.children().attr('id', '');
+
+                 it.append(a.first().clone());
+             }
+             if (0 != nn.find('>ul>li').length){
+                 mnStr = '<div class="menu"></div>';
+                 it.append(mnStr);
+                 mn = it.find('>.menu');
+                 genTocAtLevel(nn, mn, lvl+1);
+             }
+         });
+     }
+ }
+</script>
+
+                </div>
+				        <div id="page-loader" class="ui centered inline loader"></div>
+            </div>
+            <div class="ui hidden divider placeholder"></div>
+
+            <footer class="ui inverted vertical center aligned segment">
+                <div class="ui container">
+                    <script type="text/javascript">
+                    document.write("<p>Copyright © 2011-xxxx by 时聆心语&nbsp;&nbsp;·&nbsp;&nbsp;Powered by Nanoc, Pandoc, Semantic UI, Travis CI, GitHub Pages, etc.</p>".replace('xxxx', new Date().getFullYear()));
+                    </script>
+                </div>
+            </footer>   
+
+        </div>
+
+  
+
+        <!-- JS Includes -->
+        <script src="../../../../assets/jquery.min.js"></script>
+        <script src="../../../../assets/semantic.min.js"></script>
+        <script src="../../../../assets/iframeResizer.contentWindow.min.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript" defer></script>
+    </body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    	   $('.page.header').visibility({
+             type: 'fixed'
+         });
+
+     $('.back-to-top').on('click', function () {
+        $('html,body').animate({scrollTop: 0}, 100);
+     });
+
+     $('span.header-section-number ~ span[data-tag-name]').each(function(i,n){
+         nn = $(n);
+         nn.text(nn.attr('data-tag-name'));
+     });
+
+         if (0 != $('#_home_page_').length) {
+             hp = $('#_home_page_');
+             hp.data('cur_page', 1);
+
+		         $('.page.content > .container').visibility({
+			           once: false,
+			           // update size when new content loads
+			           observeChanges: true,
+			           // load content on bottom edge visible
+			           onBottomVisible: function() {
+				             $('#page-loader').addClass('visible');
+					           getPaginatedArticles(hp.data('cur_page')+1);
+		             }
+			       });
+         }
+
+         if (0 != $('#_SRC_TOC_').length){
+             $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+
+             sp = $('#_SRC_TOC_');
+             dp = $('#_dst_toc_');
+             genTocAtLevel(sp, dp, 1);
+
+            $('.sidebar-toggle').show().on('click', function () {
+                $('.sidebar').sidebar({ transition: 'overlay', dimPage: false }).sidebar('toggle');
+            });
+         }
+		     $(window).bind('hashchange', function() {
+			       if (location.hash) {
+				         var target = $(decodeURI(location.hash));
+				         if(target.length==1) {
+			    	         var top = target.offset().top-$('.page.header').height();
+					           if(top > 0)
+					               {
+					                   $('html,body').animate({scrollTop:top}, 100);
+					               }
+				         }
+				         //location.hash = '';
+				         history.replaceState("", document.title, window.location.pathname + window.location.search);
+			       }
+		     });
+     });
+    </script>
+</html>
